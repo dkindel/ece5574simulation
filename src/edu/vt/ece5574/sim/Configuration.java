@@ -7,7 +7,10 @@ package edu.vt.ece5574.sim;
 //
 //You should instantiate agents here on loading the config and provided a way 
 //to get them back to main through function calls of some sort
-
+//
+//Should seed, time and other cmd line args be placed in the config or fed in 
+//through the config file?  The config file will take some circumventing of 
+//MASON's built in functionality but is possible.  Just annoying. 
 
 public class Configuration {
 	
@@ -27,5 +30,9 @@ public class Configuration {
 	
 	public boolean load(String filename){
 		return false;
+	}
+	
+	public int getNumBuildings(){
+		return 1;
 	}
 }

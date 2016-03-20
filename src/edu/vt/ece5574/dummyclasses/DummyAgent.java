@@ -12,8 +12,8 @@ public class DummyAgent implements Steppable {
 
 	@Override
 	public void step(SimState state_) {
-		Simulation state = (Simulation) state_;	
-		System.out.println("Stepping with state hash: " + state.hashCode());
+		//Simulation state = (Simulation) state_;	
+		//System.out.println("Stepping with state hash: " + state.hashCode());
 	}
 
 }
