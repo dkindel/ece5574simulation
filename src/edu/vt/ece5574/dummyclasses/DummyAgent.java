@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import edu.vt.ece5574.agents.AbstractAgent;
 import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
+import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.*;
 
@@ -13,7 +14,11 @@ public class DummyAgent extends AbstractAgent {
 	private static final long serialVersionUID = 1;
 
 	public DummyAgent(){
-		super.id = "dummy";
+		super(-2);
+	}
+	
+	public DummyAgent(int id){
+		super(id);
 	}
 	
 	@Override
@@ -26,9 +31,13 @@ public class DummyAgent extends AbstractAgent {
 		LinkedList<Event> events = state.getEventsForRobotID(super.id);
 		if(!events.isEmpty()){
 			for(int i = 0; i < events.size(); i++){
-				if(events.get(i).getEmergencyType().toLowerCase().equals("fire")){
+				if(events.get(i).getEventType().toLowerCase().equals("fire")){
 					FireEvent fire = (FireEvent) events.get(i);
-					System.out.println(fire.toString());
+					System.out.println("Handling fire id " + fire.getEventID());
+				}
+				else if(events.get(i).getEventType().toLowerCase().equals("water leak")){
+					WaterLeakEvent leak = (WaterLeakEvent) events.get(i);
+					System.out.println("Handling water leak id " + leak.getEventID());
 				}
 			}
 		}

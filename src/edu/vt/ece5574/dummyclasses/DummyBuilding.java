@@ -9,7 +9,7 @@ public class DummyBuilding extends AbstractAgent{
 	private int numFloors;
 	
 	public DummyBuilding(){
-		
+		super(-2);
 	}
 	
 

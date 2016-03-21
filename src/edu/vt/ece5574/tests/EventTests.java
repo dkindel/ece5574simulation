@@ -7,8 +7,7 @@ import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.vt.ece5574.events.Event;
-import edu.vt.ece5574.events.WaterLeakEvent;
+import edu.vt.ece5574.events.*;
 import edu.vt.ece5574.sim.Simulation;
 
 public class EventTests {
@@ -43,38 +42,47 @@ public class EventTests {
 	
 	
 	
-	private WaterLeakEvent createWaterLeak() {
+	private FireEvent createFire() {
 		//Simulate what we'd get on the response of the push request
 		String details = 
 				"{"
+				+ "\"messageId\": \"0\","
+				+ "\"body\":{"
+				+ "\"msg_type\": \"fire\","
+				+ "\"body\": {"
+				+ "\"building\": 0,"
 				+ "\"room\": 1,"
 				+ "\"floor\": 2,"
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
-				+ "\"action\": \"fix plumbing\","
-				+ "\"id\": \"1\"" //id is the id of the agent to handle the event
+				+ "\"action\": \"Extinguish\","
+				+ "\"robots\": [0,1]" //id is the id of the agent to handle the event
+				+ "}"
+				+ "}"
 				+ "}";
-		WaterLeakEvent event = new WaterLeakEvent(details);
+		System.out.println(details);
+		assertEquals("fire", Event.getEventType(details));
+		FireEvent event = new FireEvent();
+		assertTrue(event.init(details));
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
 		assertEquals(4, event.getY_pos());
 		assertEquals(5, event.getSeverity());
-		assertEquals("fix plumbing", event.getAction());
-		assertEquals("1", event.getRobotIDToHandle());
+		assertEquals("Extinguish", event.getAction());
 		return event;
 	}
 	
 	@Test
-	public void insertWaterLeak(){
-		WaterLeakEvent event = createWaterLeak();
+	public void insertFire(){
+		FireEvent event = createFire();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID("1");
+		LinkedList<Event> events = sim.getEventsForRobotID(1);
 	}
 
 	@Test
 	public void testWaterLeakCreation(){
-		createWaterLeak();
+		createFire();
 	}
 }
