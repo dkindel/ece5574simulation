@@ -1,6 +1,10 @@
 package edu.vt.ece5574.dummyclasses;
 
-public class DummyBuilding {
+import edu.vt.ece5574.agents.AbstractAgent;
+import sim.engine.SimState;
+
+public class DummyBuilding extends AbstractAgent{
+	private static final long serialVersionUID = 1;
 	private int numRooms;
 	private int numFloors;
 	
@@ -8,6 +12,13 @@ public class DummyBuilding {
 		
 	}
 	
+
+
+	@Override
+	public void step(SimState arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	/**
@@ -41,5 +52,6 @@ public class DummyBuilding {
 	public void setNumRooms(int numRooms) {
 		this.numRooms = numRooms;
 	}
-	
+
+
 }

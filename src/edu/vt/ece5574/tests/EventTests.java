@@ -10,10 +10,11 @@ import edu.vt.ece5574.sim.Simulation;
 
 public class EventTests {
 
+	Simulation sim;
 	
 	@Before
 	public void init(){
-		String[] args = new String[2];
+		/*String[] args = new String[2];
 		args[0] = "-seed";
 		args[1] = "1";
 		
@@ -33,13 +34,41 @@ public class EventTests {
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
+		sim = new Simulation(1);
+	}
+	
+	
+	
+	private WaterLeakEvent createWaterLeak() {
+		//Simulate what we'd get on the response of the push request
+		String details = 
+				"{"
+				+ "\"room\": 1,"
+				+ "\"floor\": 2,"
+				+ "\"xpos\": 3,"
+				+ "\"ypos\": 4,"
+				+ "\"severity\": 5,"
+				+ "\"action\": \"fix plumbing\""
+				+ "}";
+		WaterLeakEvent event = new WaterLeakEvent(details);
+		assertEquals(1, event.getRoom());
+		assertEquals(2, event.getFloor());
+		assertEquals(3, event.getX_pos());
+		assertEquals(4, event.getY_pos());
+		assertEquals(5, event.getSeverity());
+		assertEquals("\"fix plumbing\"", event.getAction());
+		return event;
 	}
 	
 	@Test
-	public void waterleak() {
-		WaterLeakEvent event = new WaterLeakEvent(null);
-		
+	public void insertWaterLeak(){
+		WaterLeakEvent event = createWaterLeak();
+		sim.incomingEvent(event);
 	}
 
+	@Test
+	public void testWaterLeakCreation(){
+		createWaterLeak();
+	}
 }

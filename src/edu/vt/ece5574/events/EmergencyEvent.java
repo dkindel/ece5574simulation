@@ -1,40 +1,35 @@
 package edu.vt.ece5574.events;
 
-import edu.vt.ece5574.sim.Simulation;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import sim.engine.*;
 
-public abstract class EmergencyEvent implements Steppable{
+public abstract class EmergencyEvent {
 
-	private static final long serialVersionUID = 1;
 
 	protected String robotIDToHandle;
-	protected int room;
+	protected long room;
 	protected int floor;
 	protected int x_pos;
 	protected int y_pos;
 	protected int severity; 
 	protected String type;
+	protected String action;
 
-	/**
-	 * Can be used for a dummy event.
-	 */
-	public void step(SimState state_) {
-		System.out.println("EmergencyEvent step function called.");
-		System.out.println("We're going to send this off to the first robot in the system.");
-		
-	}
-	
-	protected void getBaseDetails(String details){
+	protected void setBaseDetails(String details, String type_){
+		type = type_;
 		JSONParser parser = new JSONParser();
 		try{
 			Object obj = parser.parse(details);
 			JSONObject json = (JSONObject) obj;
-			System.out.println(json.get("type"));
+			System.out.println(json.get("room"));
+			room = (int) (long) json.get("room");
+			floor = (int) (long) json.get("floor");
+			x_pos = (int) (long) json.get("xpos");
+			y_pos = (int) (long) json.get("ypos");
+			type = (String) json.get("type");
 		}catch (ParseException e){
 			System.err.println("position: " + e.getPosition());
 			System.err.println(e);
@@ -55,5 +50,54 @@ public abstract class EmergencyEvent implements Steppable{
 	 */
 	public String getEmergencyType(){
 		return type;
+	}
+
+	/**
+	 * @return the room
+	 */
+	public long getRoom() {
+		return room;
+	}
+
+	/**
+	 * @return the floor
+	 */
+	public int getFloor() {
+		return floor;
+	}
+
+	/**
+	 * @return the x_pos
+	 */
+	public int getX_pos() {
+		return x_pos;
+	}
+
+	/**
+	 * @return the y_pos
+	 */
+	public int getY_pos() {
+		return y_pos;
+	}
+
+	/**
+	 * @return the severity
+	 */
+	public int getSeverity() {
+		return severity;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
+	
+	/**
+	 * @return the action
+	 */
+	public String getAction() {
+		return action;
 	}
 }

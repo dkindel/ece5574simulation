@@ -27,7 +27,7 @@ public class Simulation extends SimState {
     	
         config = new Configuration();
         config.load("config.json");
-        boolean debug = true; //will be read in from config.  If it's a debug, we'll set seed manually
+        boolean debug = false; //will be read in from config.  If it's a debug, we'll set seed manually
         seed = 5;
         if(debug){
         	if(seed == 0){

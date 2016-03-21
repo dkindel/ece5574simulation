@@ -1,14 +1,9 @@
 package edu.vt.ece5574.events;
 
-import sim.engine.SimState;
+public class WaterLeakEvent extends EmergencyEvent{
 
-public class WaterLeakEvent extends EmergencyEvent {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1;
-
+	String message; 
 	/**
 	 * Build the WaterLeakEvent with the provided details.  
 	 * Details is the JSON string of the body of a message from the push team and
@@ -21,13 +16,8 @@ public class WaterLeakEvent extends EmergencyEvent {
 	 * 
 	 */
 	public WaterLeakEvent(String details){
-		super.getBaseDetails(details);
+		super.setBaseDetails(details, "water leak");
 	}
 	
-	@Override
-	public void step(SimState state_) {
-		System.out.println("Water Leak Event");
-		super.step(state_);
-	}
 
 }
