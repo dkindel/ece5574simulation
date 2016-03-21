@@ -26,6 +26,7 @@ public abstract class Event {
 	
 	
 
+
 	protected boolean setBaseDetails(String details){
 		JSONParser parser = new JSONParser();
 		try{
@@ -182,10 +183,12 @@ public abstract class Event {
 		return action;
 	}
 	
-	public boolean mustBeRespondedTo(){
-		return false;
+	/**
+	 * @return the building
+	 */
+	public int getBuilding() {
+		return building;
 	}
-	
 	/**
 	 * Returns the event ID
 	 * @return The event ID

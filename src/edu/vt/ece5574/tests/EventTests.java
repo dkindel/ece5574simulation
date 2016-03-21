@@ -65,6 +65,8 @@ public class EventTests {
 		assertEquals("fire", Event.getEventType(details));
 		FireEvent event = new FireEvent();
 		assertTrue(event.init(details));
+		assertEquals("fire", event.getEventType());
+		assertEquals(0, event.getBuilding());
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
@@ -79,10 +81,20 @@ public class EventTests {
 		FireEvent event = createFire();
 		sim.incomingEvent(event);
 		LinkedList<Event> events = sim.getEventsForRobotID(1);
+		assertEquals("0", events.get(0).getEventID());
+	}
+	
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void insertFireGetOOBEvent(){
+		FireEvent event = createFire();
+		sim.incomingEvent(event);
+		LinkedList<Event> events = sim.getEventsForRobotID(1);
+		assertEquals("0", events.get(0).getEventID());
+		events.get(1);
 	}
 
 	@Test
-	public void testWaterLeakCreation(){
+	public void testFireCreation(){
 		createFire();
 	}
 }
