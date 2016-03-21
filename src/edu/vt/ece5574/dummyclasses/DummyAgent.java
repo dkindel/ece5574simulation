@@ -3,11 +3,8 @@ package edu.vt.ece5574.dummyclasses;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.*;
 
-public class DummyAgent implements Steppable {
+public class DummyAgent extends AbstractAgent {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1;
 
 	@Override

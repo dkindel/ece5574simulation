@@ -16,6 +16,7 @@ public class Simulation extends SimState {
     
     Configuration config;
     Vector<DummyBuilding> buildings;
+    Vector<DummyAgent> dummyRobots;
 
     public Simulation(long seed){
     	super(seed); //needs to be first line, can't just set seed here
@@ -54,6 +55,7 @@ public class Simulation extends SimState {
         	room.setObjectLocation(agent,
         			new Double2D(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
         					room.getHeight() * 0.5 + random.nextDouble() - 0.5));
+        	dummyRobots.add(agent);
         	schedule.scheduleRepeating(agent);
         }
 

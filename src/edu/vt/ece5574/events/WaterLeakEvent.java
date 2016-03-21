@@ -10,9 +10,9 @@ public class WaterLeakEvent extends EmergencyEvent {
 	private static final long serialVersionUID = 1;
 
 	@Override
-	public void step(SimState arg0) {
-		// TODO Auto-generated method stub
-
+	public void step(SimState state_) {
+		System.out.println("Water Leak Event");
+		super.step(state_);
 	}
 
 }
