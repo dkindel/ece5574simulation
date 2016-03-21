@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import edu.vt.ece5574.dummyclasses.DummyAgent;
 import edu.vt.ece5574.dummyclasses.DummyBuilding;
-import edu.vt.ece5574.events.EmergencyEvent;
+import edu.vt.ece5574.events.Event;
 import sim.engine.*;
 import sim.field.continuous.Continuous2D;
 import sim.util.Double2D;
@@ -16,11 +16,11 @@ public class Simulation extends SimState {
     public Continuous2D room = new Continuous2D(1.0,100,100);
     public int numRobots = 5;
     
-    Configuration config;
-    Vector<DummyBuilding> buildings;
-    Vector<DummyAgent> dummyRobots;
+    public Configuration config;
+    public Vector<DummyBuilding> buildings;
+    public Vector<DummyAgent> dummyRobots;
     
-    LinkedList<EmergencyEvent> events;
+    LinkedList<Event> events;
 
     public Simulation(long seed){
     	super(seed); //needs to be first line, can't just set seed here
@@ -41,7 +41,7 @@ public class Simulation extends SimState {
         }
         buildings = new Vector<DummyBuilding>();
         dummyRobots = new Vector<DummyAgent>();
-        events = new LinkedList<EmergencyEvent>();
+        events = new LinkedList<Event>();
         
     }
     
@@ -72,7 +72,7 @@ public class Simulation extends SimState {
         }
     }
     
-    public void incomingEvent(EmergencyEvent event){
+    public void incomingEvent(Event event){
     	events.add(event);
     }
     
@@ -82,8 +82,8 @@ public class Simulation extends SimState {
      * @param id The ID of the robot to get events for
      * @return The linked list of events
      */
-    public LinkedList<EmergencyEvent> getEventsForRobotID(String id){
-    	LinkedList<EmergencyEvent> robotEvents = new LinkedList<EmergencyEvent>();
+    public LinkedList<Event> getEventsForRobotID(String id){
+    	LinkedList<Event> robotEvents = new LinkedList<Event>();
     	for(int i = 0; i < robotEvents.size(); i++){
     		if(events.get(i).getRobotIDToHandle().equals(id)){ //case sensitive
     			robotEvents.add(events.get(i));

@@ -6,7 +6,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public abstract class EmergencyEvent {
+public abstract class Event {
 
 
 	protected String robotIDToHandle;
@@ -29,7 +29,9 @@ public abstract class EmergencyEvent {
 			floor = (int) (long) json.get("floor");
 			x_pos = (int) (long) json.get("xpos");
 			y_pos = (int) (long) json.get("ypos");
-			type = (String) json.get("type");
+			severity = (int) (long) json.get("severity");
+			action = (String) json.get("action");
+			robotIDToHandle = (String) json.get("id");
 		}catch (ParseException e){
 			System.err.println("position: " + e.getPosition());
 			System.err.println(e);

@@ -1,6 +1,6 @@
 package edu.vt.ece5574.events;
 
-public class WaterLeakEvent extends EmergencyEvent{
+public class WaterLeakEvent extends Event{
 
 
 	String message; 

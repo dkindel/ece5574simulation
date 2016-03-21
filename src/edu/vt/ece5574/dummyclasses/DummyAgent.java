@@ -3,7 +3,7 @@ package edu.vt.ece5574.dummyclasses;
 import java.util.LinkedList;
 
 import edu.vt.ece5574.agents.AbstractAgent;
-import edu.vt.ece5574.events.EmergencyEvent;
+import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.*;
@@ -23,7 +23,7 @@ public class DummyAgent extends AbstractAgent {
 	}
 
 	public void handleEvents(Simulation state){
-		LinkedList<EmergencyEvent> events = state.getEventsForRobotID(super.id);
+		LinkedList<Event> events = state.getEventsForRobotID(super.id);
 		if(!events.isEmpty()){
 			for(int i = 0; i < events.size(); i++){
 				if(events.get(i).getEmergencyType().toLowerCase().equals("fire")){

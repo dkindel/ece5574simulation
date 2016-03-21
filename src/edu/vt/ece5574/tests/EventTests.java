@@ -2,9 +2,12 @@ package edu.vt.ece5574.tests;
 
 import static org.junit.Assert.*;
 
+import java.util.LinkedList;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
 
@@ -49,7 +52,8 @@ public class EventTests {
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
-				+ "\"action\": \"fix plumbing\""
+				+ "\"action\": \"fix plumbing\","
+				+ "\"id\": \"1\"" //id is the id of the agent to handle the event
 				+ "}";
 		WaterLeakEvent event = new WaterLeakEvent(details);
 		assertEquals(1, event.getRoom());
@@ -57,7 +61,8 @@ public class EventTests {
 		assertEquals(3, event.getX_pos());
 		assertEquals(4, event.getY_pos());
 		assertEquals(5, event.getSeverity());
-		assertEquals("\"fix plumbing\"", event.getAction());
+		assertEquals("fix plumbing", event.getAction());
+		assertEquals("1", event.getRobotIDToHandle());
 		return event;
 	}
 	
@@ -65,6 +70,7 @@ public class EventTests {
 	public void insertWaterLeak(){
 		WaterLeakEvent event = createWaterLeak();
 		sim.incomingEvent(event);
+		LinkedList<Event> events = sim.getEventsForRobotID("1");
 	}
 
 	@Test
