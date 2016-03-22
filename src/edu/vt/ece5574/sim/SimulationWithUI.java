@@ -1,3 +1,7 @@
+package edu.vt.ece5574.sim;
+
+import sim.display.GUIState;
+import sim.engine.SimState;
 
 public class SimulationWithUI extends GUIState
 {
