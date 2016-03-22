@@ -1,6 +1,6 @@
 package edu.vt.ece5574.tests;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.util.LinkedList;
@@ -12,6 +12,7 @@ import edu.vt.ece5574.agents.Robot;
 import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.sim.Simulation;
+import sim.engine.SimState;
 import sim.util.Double2D;
 
 /**
@@ -34,7 +35,18 @@ public class RobotAgentTest {
     					sim.room.getHeight() * 0.5 + sim.random.nextDouble() - 0.5));
 	}
 	
-	@Test
+	@Test(timeout=1000)
+	public void randomMovement(){
+		double initial_x= Rob.loc.x;
+		double initial_y= Rob.loc.y;
+		
+		Rob.randomMovement(sim);
+		assertFalse((Rob.loc.x==initial_x)&&(Rob.loc.y==initial_y));
+			
+		
+	}
+	
+	@Test(timeout=1000)
 	public void respondtoFireEvent(){
 		//FireEvent event = createFire();
 		String details = 
@@ -59,9 +71,12 @@ public class RobotAgentTest {
 		event.init(details);
 		sim.incomingEvent(event);
 		LinkedList<Event> events = sim.getEventsForRobotID(0);
-		while((Rob.loc.x== event.getX_pos())&&(Rob.loc.y== event.getY_pos())){
+		
+		while((Rob.loc.x!= event.getX_pos())&&(Rob.loc.y!= event.getY_pos())){
 			Rob.step(sim);
 		}
+		
+		assertEquals((int)Rob.loc.x,event.getX_pos());
 		
 	}
 }
