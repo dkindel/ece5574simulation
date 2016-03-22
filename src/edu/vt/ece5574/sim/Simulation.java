@@ -92,9 +92,12 @@ public class Simulation extends SimState {
     public LinkedList<Event> getEventsForRobotID(int id){
     	LinkedList<Event> robotEvents = new LinkedList<Event>();
     	for(int i = 0; i < events.size(); i++){
-    		LinkedList<Integer> agentIDs = events.get(i).getAgentIDsToRespond();
-    		for(int j = 0; j < agentIDs.size(); j++){
-    			if(agentIDs.get(j).intValue() == id){
+    		LinkedList<Integer> robotIDs = events.get(i).getRobotIDsToAccept();
+    		if(robotIDs == null){
+    			continue;
+    		}
+    		for(int j = 0; j < robotIDs.size(); j++){
+    			if(robotIDs.get(j).intValue() == id){
     	    		robotEvents.add(events.get(i));
     	    		break;
     			}
@@ -103,4 +106,26 @@ public class Simulation extends SimState {
 		return robotEvents;
     }
     
+    /**
+     * Gets all of the pending emergency events for the appropriate user.
+     * This is case sensitive so make sure things match
+     * @param id The ID of the user to get events for
+     * @return The linked list of events
+     */
+    public LinkedList<Event> getEventsForUserID(int id){
+    	LinkedList<Event> robotEvents = new LinkedList<Event>();
+    	for(int i = 0; i < events.size(); i++){
+    		LinkedList<Integer> userIDs = events.get(i).getUserIDsToAccept();
+    		if(userIDs == null){
+    			continue;
+    		}
+    		for(int j = 0; j < userIDs.size(); j++){
+    			if(userIDs.get(j).intValue() == id){
+    	    		robotEvents.add(events.get(i));
+    	    		break;
+    			}
+    		}
+    	}
+		return robotEvents;
+    }
 }

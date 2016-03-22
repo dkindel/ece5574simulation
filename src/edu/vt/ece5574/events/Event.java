@@ -18,7 +18,8 @@ public abstract class Event {
 
 
 	protected String eventID = "-1"; 
-	protected LinkedList<Integer> agentsToRespond = null;
+	protected LinkedList<Integer> robotsToAccept = null;
+	protected LinkedList<Integer> usersToAccept = null;
 	protected long room = -1;
 	protected int floor = -1;
 	protected int x_pos = -1;
@@ -26,6 +27,7 @@ public abstract class Event {
 	protected int severity = -1; 
 	protected String type = null;
 	protected String action = null;
+	protected String message = null;
 	protected int building = -1;
 	
 	
@@ -52,7 +54,7 @@ public abstract class Event {
 				System.err.println("Missing required type.");
 				return false;
 			}
-			type = (String) attr;
+			type = ((String) attr).toLowerCase();
 			
 			
 			JSONObject body = (JSONObject) json.get("body");
@@ -101,16 +103,30 @@ public abstract class Event {
 			
 			attr = body.get("action");
 			if(attr != null){
-				action = (String) attr;
+				action = ((String) attr).toLowerCase();
 			}
+
+			attr = body.get("message");
+			if(attr != null){
+				message = (String) attr;
+			}
+
 			
 			JSONArray robotIDs = (JSONArray) body.get("robots");
 			if(robotIDs != null){
-				agentsToRespond = new LinkedList<Integer>();
+				robotsToAccept = new LinkedList<Integer>();
 				for(int i = 0 ; i < robotIDs.size(); i++){
-					System.out.println(robotIDs.get(i));
 					int id = (int)(long) robotIDs.get(i);
-					agentsToRespond.add(new Integer(id));
+					robotsToAccept.add(new Integer(id));
+				}
+			}
+
+			JSONArray userIDs = (JSONArray) body.get("users");
+			if(userIDs != null){
+				usersToAccept = new LinkedList<Integer>();
+				for(int i = 0; i < userIDs.size(); i++){
+					int id = (int)(long) userIDs.get(i);
+					usersToAccept.add(new Integer(id));
 				}
 			}
 			//robotIDs.get(0);
@@ -123,11 +139,19 @@ public abstract class Event {
 	}
 	
 	/**
-	 * Gets all of the IDs of Agents who will need to respond to this event
-	 * @return The linked list of agent ids
+	 * Gets all of the IDs of Robots who will need to respond to this event
+	 * @return The linked list of robot ids
 	 */
-	public LinkedList<Integer> getAgentIDsToRespond(){
-		return agentsToRespond;
+	public LinkedList<Integer> getRobotIDsToAccept(){
+		return robotsToAccept;
+	}
+	
+	/**
+	 * Gets all of the IDs of Users who will need to respond to this event
+	 * @return The linked list of user ids
+	 */
+	public LinkedList<Integer> getUserIDsToAccept(){
+		return usersToAccept;
 	}
 	
 	/**
@@ -173,12 +197,6 @@ public abstract class Event {
 		return severity;
 	}
 
-	/**
-	 * @return the type
-	 */
-	public String getType() {
-		return type;
-	}
 	
 	/**
 	 * @return the action
@@ -200,6 +218,11 @@ public abstract class Event {
 	public String getEventID(){
 		return eventID;
 	}
+
+	public String getMessage() {
+		return message;
+	}
+	
 	
 	public static String getEventType(String details){
 		JSONParser parser = new JSONParser();
