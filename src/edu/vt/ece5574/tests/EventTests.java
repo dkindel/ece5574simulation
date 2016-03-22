@@ -10,6 +10,11 @@ import org.junit.Test;
 import edu.vt.ece5574.events.*;
 import edu.vt.ece5574.sim.Simulation;
 
+/**
+ * Test events and see that they get set properly, get added to the event list, etc.
+ * @author David Kindel
+ *
+ */
 public class EventTests {
 
 	Simulation sim;
@@ -92,6 +97,8 @@ public class EventTests {
 		assertEquals("0", events.get(0).getEventID());
 		events.get(1);
 	}
+	
+	
 
 	@Test
 	public void testFireCreation(){

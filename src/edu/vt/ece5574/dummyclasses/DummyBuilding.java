@@ -3,6 +3,11 @@ package edu.vt.ece5574.dummyclasses;
 import edu.vt.ece5574.agents.AbstractAgent;
 import sim.engine.SimState;
 
+/**
+ * A building that has just basic properties that we might use. 
+ * @author David Kindel
+ *
+ */
 public class DummyBuilding extends AbstractAgent{
 	private static final long serialVersionUID = 1;
 	private int numRooms;

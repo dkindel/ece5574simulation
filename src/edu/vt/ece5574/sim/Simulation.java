@@ -10,6 +10,11 @@ import sim.engine.*;
 import sim.field.continuous.Continuous2D;
 import sim.util.Double2D;
 
+/**
+ * The root of the simulation.  This is where things get started and the magic happens.
+ * @author David Kindel
+ *
+ */
 public class Simulation extends SimState {
 
     private static final long serialVersionUID = 1;

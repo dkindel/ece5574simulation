@@ -9,7 +9,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-
+/**
+ * The abstract class  for all events to inherit
+ * @author David Kindel
+ *
+ */
 public abstract class Event {
 
 

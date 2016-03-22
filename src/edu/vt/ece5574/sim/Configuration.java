@@ -12,6 +12,11 @@ package edu.vt.ece5574.sim;
 //through the config file?  The config file will take some circumventing of 
 //MASON's built in functionality but is possible.  Just annoying. 
 
+/**
+ * Basic class for configurations
+ * @author David Kindel
+ *
+ */
 public class Configuration {
 	
 	/**
