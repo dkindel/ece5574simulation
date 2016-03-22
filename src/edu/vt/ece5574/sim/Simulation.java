@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import edu.vt.ece5574.dummyclasses.DummyAgent;
-import edu.vt.ece5574.dummyclasses.DummyBuilding;
+import edu.vt.ece5574.dummyclasses.Building;
 import edu.vt.ece5574.events.Event;
 import sim.engine.*;
 import sim.field.continuous.Continuous2D;
@@ -22,7 +22,7 @@ public class Simulation extends SimState {
     public int numRobots = 5;
     
     public Configuration config;
-    public Vector<DummyBuilding> buildings;
+    public Vector<Building> buildings;
     public Vector<DummyAgent> dummyRobots;
     
     LinkedList<Event> events; 	// For now, events are only added, not removed.  
@@ -46,7 +46,7 @@ public class Simulation extends SimState {
             	System.out.println("Ignore other message noting the job number and seed value.");
         	}
         }
-        buildings = new Vector<DummyBuilding>();
+        buildings = new Vector<Building>();
         dummyRobots = new Vector<DummyAgent>();
         events = new LinkedList<Event>();
         
@@ -75,7 +75,7 @@ public class Simulation extends SimState {
 
         int numBuildings = config.getNumBuildings();
         for(int i = 0; i < numBuildings; i++){
-        	buildings.add(new DummyBuilding());
+        	buildings.add(new Building());
         }
     }
     
