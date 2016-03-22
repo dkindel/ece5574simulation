@@ -1,6 +1,11 @@
 package edu.vt.ece5574.agents;
 
 import java.awt.Color;
+/**
+ * The Robot agent implementation.  The robot movement/response to events is simulated here.
+ * @author Deepak Rajendrakumaran
+ *
+ */
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
@@ -188,7 +193,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 			reactToEvent(simState);
 		}
 		currEvents = simState.getEventsForRobotID(robotID);
-		if((currEvents ==null)){
+		if(!(currEvents ==null)){
 		if(currEvents.isEmpty()){
 			//if no event, move randomly to collect sensor data
 			randomMovement(state);
