@@ -1,4 +1,4 @@
-package edu.vt.ece5574.dummyclasses;
+package edu.vt.ece5574.sim;
 
 public class Matrix {
     private final int M;             // number of rows
