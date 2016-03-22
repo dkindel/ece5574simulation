@@ -3,16 +3,12 @@ package edu.vt.ece5574.tests;
 import static org.junit.Assert.*;
 
 import java.awt.Color;
-import java.util.LinkedList;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.vt.ece5574.agents.Robot;
-import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.sim.Simulation;
-import sim.engine.SimState;
 import sim.util.Double2D;
 
 /**
@@ -49,9 +45,6 @@ public class RobotAgentTest {
 	@Test(timeout=1000)
 	public void respondtoNoEvent(){
 		
-		LinkedList<Event> events = sim.getEventsForRobotID(0);
-		
-		
 		Rob.step(sim);
 		assertFalse(Rob.isBusy());
 		
@@ -81,8 +74,6 @@ public class RobotAgentTest {
 		FireEvent event = new FireEvent();
 		event.init(details);
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(0);
-		
 		while((Rob.loc.x!= event.getX_pos())&&(Rob.loc.y!= event.getY_pos())){
 			Rob.step(sim);
 		}

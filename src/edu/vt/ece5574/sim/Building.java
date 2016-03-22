@@ -59,7 +59,13 @@ public class Building extends AbstractAgent{
         return height;
     }
     
+    public int getNumRooms() {
+    	return numRooms;
+    }
     
+    public int getNumFloors() {
+    	return numFloors;
+    }
 
 	@Override
 	public void step(SimState arg0) {

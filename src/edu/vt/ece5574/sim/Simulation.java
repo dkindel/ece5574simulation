@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import edu.vt.ece5574.agents.Robot;
-import edu.vt.ece5574.dummyclasses.DummyAgent;
 import edu.vt.ece5574.events.Event;
 import sim.engine.*;
 import sim.field.continuous.Continuous2D;

@@ -1,12 +1,6 @@
 package edu.vt.ece5574.agents;
 
 import java.awt.Color;
-/**
- * The Robot agent implementation.  The robot movement/response to events is simulated here.
- * @author Deepak Rajendrakumaran
- *
- */
-import java.awt.Graphics2D;
 import java.util.LinkedList;
 
 
@@ -16,15 +10,11 @@ import edu.vt.ece5574.events.IntruderEvent;
 import edu.vt.ece5574.events.MoveRobotEvent;
 import edu.vt.ece5574.events.UserMessageEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
-import edu.vt.ece5574.sim.Building;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.SimState;
 import sim.engine.Steppable;
-import sim.portrayal.DrawInfo2D;
 import sim.portrayal.simple.OvalPortrayal2D;
-import sim.util.Bag;
 import sim.util.Double2D;
-import sim.util.Int2D;
 import sim.util.MutableDouble2D;
 
 public class Robot extends OvalPortrayal2D implements Steppable {
