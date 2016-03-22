@@ -20,7 +20,9 @@ public class Simulation extends SimState {
     public Vector<DummyBuilding> buildings;
     public Vector<DummyAgent> dummyRobots;
     
-    LinkedList<Event> events;
+    LinkedList<Event> events; 	// For now, events are only added, not removed.  
+    							// Likely, the building will cause some cleanup 
+    							// once the event is handled 
 
     public Simulation(long seed){
     	super(seed); //needs to be first line, can't just set seed here
@@ -82,14 +84,18 @@ public class Simulation extends SimState {
      * @param id The ID of the robot to get events for
      * @return The linked list of events
      */
-    public LinkedList<Event> getEventsForRobotID(String id){
+    public LinkedList<Event> getEventsForRobotID(int id){
     	LinkedList<Event> robotEvents = new LinkedList<Event>();
-    	for(int i = 0; i < robotEvents.size(); i++){
-    		if(events.get(i).getRobotIDToHandle().equals(id)){ //case sensitive
-    			robotEvents.add(events.get(i));
+    	for(int i = 0; i < events.size(); i++){
+    		LinkedList<Integer> agentIDs = events.get(i).getAgentIDsToRespond();
+    		for(int j = 0; j < agentIDs.size(); j++){
+    			if(agentIDs.get(j).intValue() == id){
+    	    		robotEvents.add(events.get(i));
+    	    		break;
+    			}
     		}
     	}
-		return events;
+		return robotEvents;
     }
     
 }
