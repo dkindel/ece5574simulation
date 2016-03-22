@@ -9,6 +9,11 @@ import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.*;
 
+/**
+ * A class to simply inherit the abstract agent to be instatiated.  This agent is awfully dumb
+ * @author David Kindel
+ *
+ */
 public class DummyAgent extends AbstractAgent {
 
 	private static final long serialVersionUID = 1;

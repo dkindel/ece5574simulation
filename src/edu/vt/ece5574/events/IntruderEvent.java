@@ -1,6 +1,11 @@
 package edu.vt.ece5574.events;
 
 
+/**
+ * The class for all IntruderEvents with attributes specific to these types
+ * @author David Kindel
+ *
+ */
 public class IntruderEvent extends Event {
 
 	public IntruderEvent(){
