@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import edu.vt.ece5574.dummyclasses.DummyAgent;
-import edu.vt.ece5574.dummyclasses.Building;
 import edu.vt.ece5574.events.Event;
 import sim.engine.*;
 import sim.field.continuous.Continuous2D;
@@ -75,7 +74,7 @@ public class Simulation extends SimState {
 
         int numBuildings = config.getNumBuildings();
         for(int i = 0; i < numBuildings; i++){
-        	buildings.add(new Building());
+        	buildings.add(new Building(100, 100, 5, 2));
         }
     }
     
