@@ -14,10 +14,13 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 
-public class APICaller {
+public class APICaller implements steppable {
 int userID;
 int messageID;
 
+public void step(SimState state) {
+	
+}
  
 //Call both get and delete if messageID is known
 public void callPushSystemAPI(String userID,String messageID) throws Exception{
@@ -85,41 +88,7 @@ public void callPushSystemAPI(String userID,String messageID) throws Exception{
     }
 }
 
-//call get on all the messages for the user when messageID is not known
-public void callPushSystemAPI(int userID) throws Exception{
-	CloseableHttpClient httpclient = HttpClients.createDefault();
-    String url="https://55izr0k3b7.execute-api.us-east-1.amazonaws.com/test/"+userID+"/messages/";
-	//String url="http://team7restapi.appspot.com/api/robots/1";
-    try{
-    	 HttpGet httpget = new HttpGet(url);
-         //System.out.println("Executing request " + httpget.getRequestLine());
 
-         // Create a custom response handlereee
-         ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-             public String handleResponse(
-                  final HttpResponse response) throws ClientProtocolException, IOException {
-                 int status = response.getStatusLine().getStatusCode();
-                 if (status >= 200 && status < 300) {
-                     HttpEntity entity = response.getEntity();
-                     return entity != null ? EntityUtils.toString(entity) : null;
-                 } else {
-                     throw new ClientProtocolException("Unexpected response status: " + status);
-                 }
-             }
-
-         };
-         String responseBody = httpclient.execute(httpget, responseHandler);
-         //JSONObject myObject = new JSONObject(responseBody);
-         //System.out.println(myObject);
-      
-    }
-    finally {
-        httpclient.close();
-    }
-    
-    
-}
 
 
 
