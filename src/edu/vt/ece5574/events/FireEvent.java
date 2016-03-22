@@ -1,18 +1,21 @@
 package edu.vt.ece5574.events;
 
-import sim.engine.SimState;
+/**
+ * The class for all FireEvents with attributes specific to these types
+ * @author David Kindel
+ *
+ */
+public class FireEvent extends Event {
 
-public class FireEvent extends EmergencyEvent {
+	public FireEvent() {
+		
+	}
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1;
-
-	@Override
-	public void step(SimState state_) {
-		System.out.println("Fire Event");
-		super.step(state_);
+	public boolean init(String details){
+		if(super.setBaseDetails(details)){
+			return true;
+		}
+		return false;
 	}
 
 }
