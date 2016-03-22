@@ -1,8 +1,7 @@
-package edu.vt.ece5574.dummyclasses;
+package edu.vt.ece5574.sim;
 
 import edu.vt.ece5574.agents.AbstractAgent;
 import sim.engine.SimState;
-import edu.vt.ece5574.dummyclasses.Matrix;
 
 
 
