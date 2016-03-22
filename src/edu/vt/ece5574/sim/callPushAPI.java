@@ -18,12 +18,8 @@ public class APICaller implements steppable {
 int userID;
 int messageID;
 
-public void step(SimState state) {
-	
-}
- 
 //Call both get and delete if messageID is known
-public void callPushSystemAPI(String userID,String messageID) throws Exception{
+public Event callPushSystemAPI(String userID,String messageID) throws Exception{
     CloseableHttpClient httpclient = HttpClients.createDefault();
     String url="https://55izr0k3b7.execute-api.us-east-1.amazonaws.com/test/"+userID+"/messages/"+messageID;
     //String url="http://team7restapi.appspot.com/api/robots/1";
@@ -62,30 +58,49 @@ public void callPushSystemAPI(String userID,String messageID) throws Exception{
         
         //CREATE EVENT
         String msg_type=Event.getEventType(responseBodyStripped);
-        switch(msg_type){
-        case "Fire": 
+        
+        if(msg_type=="Fire"){
         	FireEvent fire = new FireEvent();
         	if(!fire.init(responseBodyStripped))
         		System.out.println("Improper JSON format");
-        	break;
-        
-        case "Intruder":
+        	else
+        		return fire;
+        }
+        else if(msg_type=="Intruder"){
         	IntruderEvent intruder = new IntruderEvent();
         	if(!intruder.init(responseBodyStripped))
         		System.out.println("Improper JSON format");
-            break;
-            
-        case "WaterLeak":
+        	else
+        		return intruder;
+        }
+        else if(msg_type=="WaterLeak"){
         	WaterLeakEvent waterleak = new WaterLeakEvent();
         	if(!waterleak.init(responseBodyStripped))
         		System.out.println("Improper JSON format");
-            break;
+        	else
+        		return waterleak;
         }
+        
+        else{
+        	Event e = new Event();
+        	return e;
+        }
+        
+        
         
         
     } finally {
         httpclient.close();
     }
+}
+
+@Override
+public void step(SimState state) {
+	//Check for events
+	Simulation simState = (Simulation)state;
+	
+	simState.incomingEvent(callPushSystemAPI("1","1"));
+	
 }
 
 
