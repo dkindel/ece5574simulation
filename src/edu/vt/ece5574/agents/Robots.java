@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
-import edu.vt.ece5574.events.EmergencyEvent;
+
+import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.IntruderEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
@@ -15,11 +16,11 @@ import sim.portrayal.DrawInfo2D;
 import sim.portrayal.simple.OvalPortrayal2D;
 import sim.util.MutableDouble2D;
 
-public class RobotAgent extends OvalPortrayal2D implements Steppable {
+public class Robots extends OvalPortrayal2D implements Steppable {
 
 	private static final long serialVersionUID = 1;
-	private static  String robotID;
-	LinkedList<EmergencyEvent> currEvents;
+	private static  int robotID;
+	LinkedList<Event> currEvents;
 	
 	public MutableDouble2D loc, velocity;
     public MutableDouble2D newLoc = new MutableDouble2D();
@@ -56,7 +57,7 @@ public class RobotAgent extends OvalPortrayal2D implements Steppable {
     
     
 	
-	public RobotAgent( double newX, double newY,  Color c , String rID)
+	public Robots( double newX, double newY,  Color c , int rID)
     {
     super(c, 2 * 2);  // scale is twice the radius
     
@@ -72,27 +73,11 @@ public class RobotAgent extends OvalPortrayal2D implements Steppable {
     speed = 0.1;
     }
 	
-	public void draw(Object object,  final Graphics2D g, final DrawInfo2D info )
-    {
-    // draw the circle
-    super.draw(object, g,info);
-    
-    // draw our line as well
-    
-    final double width = info.draw.width * radius * 2;
-    final double height = info.draw.height * radius * 2;
-        
-    g.setColor(Color.white);
-    double d = velocity.angle();
-    g.drawLine((int)info.draw.x,
-        (int)info.draw.y,
-        (int)(info.draw.x) + (int)(width/2 * /*Strict*/Math.cos(d)),
-        (int)(info.draw.y) + (int)(height/2 * /*Strict*/Math.sin(d)));
-    }
+
 
 	public void dealWithEvents(){
 		while(currEvents.size()!=0){
-			EmergencyEvent evnt = currEvents.removeFirst();
+			Event evnt = currEvents.removeFirst();
 			if(evnt instanceof FireEvent){
 				//need building impl to reach the event
 			}
