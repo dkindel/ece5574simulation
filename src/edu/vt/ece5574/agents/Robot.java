@@ -1,6 +1,11 @@
 package edu.vt.ece5574.agents;
 
 import java.awt.Color;
+/**
+ * The Robot agent implementation.  The robot movement/response to events is simulated here.
+ * @author Deepak Rajendrakumaran
+ *
+ */
 import java.awt.Graphics2D;
 import java.util.LinkedList;
 
@@ -35,7 +40,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
     public MutableDouble2D newLoc = new MutableDouble2D();
   //  public MutableDouble2D sumVector = new MutableDouble2D(0,0);
 
-    public double speed, radius =2;
+    public double  radius =2;
     
     public double cap;
     
@@ -87,10 +92,11 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 
 
 	public void dealWithEvents(SimState state){
+		Simulation simState = (Simulation)state;
 		while(currEvents.size()!=0){
 			currEvent = currEvents.removeFirst();
 			busy=true;
-			reactToEvent();
+			reactToEvent(simState);
 			
 		}
 	}
@@ -114,7 +120,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 		busy=false;
 	}
 	
-	public void reactToEvent(){
+	public void reactToEvent(Simulation simState){
 		double xpos = currEvent.getX_pos();
 		double ypos = currEvent.getY_pos();
 		if(loc.x<xpos){
@@ -141,7 +147,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 			else
 				loc.y=ypos;
 		}
-		
+		simState.room.setObjectLocation(this, new Double2D(loc.x, loc.y));
 		if((loc.x==xpos) && (loc.y==ypos)){
 			addressEvent();
 		}
@@ -181,11 +187,13 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 		Simulation simState = (Simulation)state;
 		
 		//Check for events
-		simState.getEventsForRobotID(robotID);
-		currEvents.addAll(simState.getEventsForRobotID(robotID));
-		if(busy==true){
-			reactToEvent();
+		
+		if(busy==true){		
+
+			reactToEvent(simState);
 		}
+		currEvents = simState.getEventsForRobotID(robotID);
+		if(!(currEvents ==null)){
 		if(currEvents.isEmpty()){
 			//if no event, move randomly to collect sensor data
 			randomMovement(state);
@@ -195,7 +203,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 			dealWithEvents(state);
 		}
 		
-		
+		}
 	}
 
 }
