@@ -18,10 +18,10 @@ import edu.vt.ece5574.events.IntruderEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.SimState;
-import sim.engine.Steppable
+import sim.engine.Steppable;
 
 
-public class APICaller implements steppable {
+public class APICaller implements Steppable {
 int userID;
 int messageID;
 
@@ -89,8 +89,7 @@ public Event callPushSystemAPI(String userID,String messageID) throws Exception{
         }
         
         else{
-        	Event e = new Event();
-        	return e;
+        	return null;
         }
         
         
