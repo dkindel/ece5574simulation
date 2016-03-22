@@ -11,7 +11,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
+//import org.json.JSONObject;
 import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.IntruderEvent;
@@ -98,6 +98,7 @@ public Event callPushSystemAPI(String userID,String messageID) throws Exception{
     } finally {
         httpclient.close();
     }
+    return null;
 }
 
 @Override
@@ -105,7 +106,12 @@ public void step(SimState state) {
 	//Check for events
 	Simulation simState = (Simulation)state;
 	
-	simState.incomingEvent(callPushSystemAPI("1","1"));
+	try {
+		simState.incomingEvent(callPushSystemAPI("1","1"));
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	
 }
 
