@@ -42,9 +42,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 
     public double  radius =2;
     
-    public double cap;
-    
-    public double mass;
+    public boolean isBusy() { return busy; }
         
     public double getX() { return loc.x; }
     public void setX( double newX ) { loc.x = newX; }
@@ -84,7 +82,6 @@ public class Robot extends OvalPortrayal2D implements Steppable {
     
     radius = 2;
     
-    cap = 1.0;
     
     //speed = 0.1;
     }

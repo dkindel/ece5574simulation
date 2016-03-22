@@ -46,7 +46,16 @@ public class RobotAgentTest {
 		
 	}
 	
-	
+	@Test(timeout=1000)
+	public void respondtoNoEvent(){
+		
+		LinkedList<Event> events = sim.getEventsForRobotID(0);
+		
+		
+		Rob.step(sim);
+		assertFalse(Rob.isBusy());
+		
+	}
 	
 	@Test(timeout=1000)
 	public void respondtoFireEvent(){
