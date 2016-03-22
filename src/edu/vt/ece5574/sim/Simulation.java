@@ -4,12 +4,17 @@ import java.util.LinkedList;
 import java.util.Vector;
 
 import edu.vt.ece5574.dummyclasses.DummyAgent;
-import edu.vt.ece5574.dummyclasses.DummyBuilding;
+import edu.vt.ece5574.dummyclasses.Building;
 import edu.vt.ece5574.events.Event;
 import sim.engine.*;
 import sim.field.continuous.Continuous2D;
 import sim.util.Double2D;
 
+/**
+ * The root of the simulation.  This is where things get started and the magic happens.
+ * @author David Kindel
+ *
+ */
 public class Simulation extends SimState {
 
     private static final long serialVersionUID = 1;
@@ -17,7 +22,7 @@ public class Simulation extends SimState {
     public int numRobots = 5;
     
     public Configuration config;
-    public Vector<DummyBuilding> buildings;
+    public Vector<Building> buildings;
     public Vector<DummyAgent> dummyRobots;
     
     LinkedList<Event> events; 	// For now, events are only added, not removed.  
@@ -41,7 +46,7 @@ public class Simulation extends SimState {
             	System.out.println("Ignore other message noting the job number and seed value.");
         	}
         }
-        buildings = new Vector<DummyBuilding>();
+        buildings = new Vector<Building>();
         dummyRobots = new Vector<DummyAgent>();
         events = new LinkedList<Event>();
         
@@ -70,7 +75,7 @@ public class Simulation extends SimState {
 
         int numBuildings = config.getNumBuildings();
         for(int i = 0; i < numBuildings; i++){
-        	buildings.add(new DummyBuilding());
+        	buildings.add(new Building());
         }
     }
     
@@ -87,9 +92,12 @@ public class Simulation extends SimState {
     public LinkedList<Event> getEventsForRobotID(int id){
     	LinkedList<Event> robotEvents = new LinkedList<Event>();
     	for(int i = 0; i < events.size(); i++){
-    		LinkedList<Integer> agentIDs = events.get(i).getAgentIDsToRespond();
-    		for(int j = 0; j < agentIDs.size(); j++){
-    			if(agentIDs.get(j).intValue() == id){
+    		LinkedList<Integer> robotIDs = events.get(i).getRobotIDsToAccept();
+    		if(robotIDs == null){
+    			continue;
+    		}
+    		for(int j = 0; j < robotIDs.size(); j++){
+    			if(robotIDs.get(j).intValue() == id){
     	    		robotEvents.add(events.get(i));
     	    		break;
     			}
@@ -98,4 +106,26 @@ public class Simulation extends SimState {
 		return robotEvents;
     }
     
+    /**
+     * Gets all of the pending emergency events for the appropriate user.
+     * This is case sensitive so make sure things match
+     * @param id The ID of the user to get events for
+     * @return The linked list of events
+     */
+    public LinkedList<Event> getEventsForUserID(int id){
+    	LinkedList<Event> robotEvents = new LinkedList<Event>();
+    	for(int i = 0; i < events.size(); i++){
+    		LinkedList<Integer> userIDs = events.get(i).getUserIDsToAccept();
+    		if(userIDs == null){
+    			continue;
+    		}
+    		for(int j = 0; j < userIDs.size(); j++){
+    			if(userIDs.get(j).intValue() == id){
+    	    		robotEvents.add(events.get(i));
+    	    		break;
+    			}
+    		}
+    	}
+		return robotEvents;
+    }
 }
