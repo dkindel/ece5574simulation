@@ -28,7 +28,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 	private  int robotID;
 	private  LinkedList<Event> currEvents;
 	private Event currEvent = null;
-	private  Building bld;
+	//private  Building bld;
 	private boolean busy=false;
 	
 	public MutableDouble2D loc, velocity;
@@ -66,13 +66,13 @@ public class Robot extends OvalPortrayal2D implements Steppable {
     
     
 	
-	public Robot( double newX, double newY,  Color c , int rID, Building blding)
+	public Robot( double newX, double newY,  Color c , int rID)
     {
     super(c, 2 * 2);  // scale is twice the radius
     
     robotID = rID;
     
-    bld = blding;
+    //bld = blding;
     
     loc = new MutableDouble2D(newX, newY);
     //velocity = new MutableDouble2D(0, 0);

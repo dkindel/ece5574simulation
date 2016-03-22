@@ -3,11 +3,13 @@ package edu.vt.ece5574.sim;
 import java.util.LinkedList;
 import java.util.Vector;
 
+import edu.vt.ece5574.agents.Robot;
 import edu.vt.ece5574.dummyclasses.DummyAgent;
 import edu.vt.ece5574.events.Event;
 import sim.engine.*;
 import sim.field.continuous.Continuous2D;
 import sim.util.Double2D;
+import java.awt.*;
 
 /**
  * The root of the simulation.  This is where things get started and the magic happens.
@@ -22,7 +24,8 @@ public class Simulation extends SimState {
     
     public Configuration config;
     public Vector<Building> buildings;
-    public Vector<DummyAgent> dummyRobots;
+    //public Vector<DummyAgent> dummyRobots;
+    public Vector<Robot> Robots;
     
     LinkedList<Event> events; 	// For now, events are only added, not removed.  
     							// Likely, the building will cause some cleanup 
@@ -46,7 +49,7 @@ public class Simulation extends SimState {
         	}
         }
         buildings = new Vector<Building>();
-        dummyRobots = new Vector<DummyAgent>();
+        Robots = new Vector<Robot>();
         events = new LinkedList<Event>();
         
     }
@@ -64,11 +67,12 @@ public class Simulation extends SimState {
         room.clear();
         
         for(int i = 0; i < numRobots; i++){
-        	DummyAgent agent = new DummyAgent();
+        	Robot agent = new Robot(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
+					room.getHeight() * 0.5 + random.nextDouble() - 0.5,Color.WHITE,i);
         	room.setObjectLocation(agent,
         			new Double2D(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
         					room.getHeight() * 0.5 + random.nextDouble() - 0.5));
-        	dummyRobots.add(agent);
+        	Robots.add(agent);
         	schedule.scheduleRepeating(agent);
         }
 
