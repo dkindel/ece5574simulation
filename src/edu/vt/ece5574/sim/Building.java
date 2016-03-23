@@ -1,11 +1,11 @@
 package edu.vt.ece5574.sim;
 
-import edu.vt.ece5574.agents.AbstractAgent;
+import edu.vt.ece5574.agents.Agent;
 import sim.engine.SimState;
 
 
 
-public class Building extends AbstractAgent{
+public class Building extends Agent{
 	
 	public enum Obstacle {
 	    obstacle, emergency 

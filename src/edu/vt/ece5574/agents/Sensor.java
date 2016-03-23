@@ -9,7 +9,7 @@ import sim.engine.SimState;
 
 //Class for sensors. - Author - Ameya Khandekar
 
-public class Sensor extends AbstractAgent {
+public class Sensor extends Agent {
 	
 
 	private static final long serialVersionUID = 1;

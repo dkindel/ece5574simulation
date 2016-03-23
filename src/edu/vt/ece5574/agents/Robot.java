@@ -15,7 +15,7 @@ import sim.engine.SimState;
 import sim.util.Double2D;
 import sim.util.MutableDouble2D;
 
-public class Robot extends AbstractAgent {
+public class Robot extends Agent {
 
 	private static final long serialVersionUID = 1;
 	private  int robotID;

@@ -2,7 +2,7 @@ package edu.vt.ece5574.dummyclasses;
 
 import java.util.LinkedList;
 
-import edu.vt.ece5574.agents.AbstractAgent;
+import edu.vt.ece5574.agents.Agent;
 import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
@@ -14,7 +14,7 @@ import sim.engine.*;
  * @author David Kindel
  *
  */
-public class DummyAgent extends AbstractAgent {
+public class DummyAgent extends Agent {
 
 	private static final long serialVersionUID = 1;
 

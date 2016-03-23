@@ -1,6 +1,6 @@
 package edu.vt.ece5574.dummyclasses;
 
-import edu.vt.ece5574.agents.AbstractAgent;
+import edu.vt.ece5574.agents.Agent;
 import sim.engine.SimState;
 
 /**
@@ -8,7 +8,7 @@ import sim.engine.SimState;
  * @author David Kindel
  *
  */
-public class DummyBuilding extends AbstractAgent{
+public class DummyBuilding extends Agent{
 	private static final long serialVersionUID = 1;
 	private int numRooms;
 	private int numFloors;

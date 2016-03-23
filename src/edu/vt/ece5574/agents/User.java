@@ -15,7 +15,7 @@ import sim.engine.SimState;
  * @author Vedahari Narasimhan Ganesan 
  */
 
-public class User extends AbstractAgent{
+public class User extends Agent{
 	
 	LinkedList<Event> userEvents;
 	private static final long serialVersionUID = 1;
