@@ -1,9 +1,6 @@
 package edu.vt.ece5574.agents;
 
 import java.awt.Color;
-import java.util.LinkedList;
-
-
 import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.IntruderEvent;
@@ -18,8 +15,6 @@ import sim.util.MutableDouble2D;
 public class Robot extends Agent {
 
 	private static final long serialVersionUID = 1;
-	private  int robotID;
-	private  LinkedList<Event> currEvents;
 	private Event currEvent = null;
 	//private  Building bld;
 	private boolean busy=false;
@@ -57,11 +52,10 @@ public class Robot extends Agent {
     
     
 	
-	public Robot( double newX, double newY,  Color c , int rID)
+	public Robot( double newX, double newY,  Color c , String rID, String buildingID)
     {
-    super(c, 2 * 2, rID);  // scale is twice the radius
+    super(c, 2 * 2, rID, buildingID);  // scale is twice the radius
     
-    robotID = rID;
     
     //bld = blding;
     
@@ -78,8 +72,13 @@ public class Robot extends Agent {
 
 	public void dealWithEvents(SimState state){
 		Simulation simState = (Simulation)state;
-		while(currEvents.size()!=0){
-			currEvent = currEvents.removeFirst();
+		//Can't have a loop like this.  
+		//The step function should be short and handling all events
+		//inside a single step would be insanity.  They need to be 
+		//broken down.  This may be your plan in the end but I figured I'd 
+		//make a note regardless
+		while(events.size()!=0){
+			currEvent = events.removeFirst();
 			busy=true;
 			reactToEvent(simState);
 			
@@ -177,9 +176,8 @@ public class Robot extends Agent {
 
 			reactToEvent(simState);
 		}
-		currEvents = simState.getEventsForRobotID(robotID);
-		if(!(currEvents ==null)){
-		if(currEvents.isEmpty()){
+		if(!(events ==null)){
+		if(events.isEmpty()){
 			//if no event, move randomly to collect sensor data
 			randomMovement(state);
 		}

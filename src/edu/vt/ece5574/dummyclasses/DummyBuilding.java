@@ -14,7 +14,7 @@ public class DummyBuilding extends Agent{
 	private int numFloors;
 	
 	public DummyBuilding(){
-		super(-2);
+		super("0", "0");
 	}
 	
 

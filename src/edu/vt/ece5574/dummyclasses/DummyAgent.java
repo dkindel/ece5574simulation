@@ -17,13 +17,9 @@ import sim.engine.*;
 public class DummyAgent extends Agent {
 
 	private static final long serialVersionUID = 1;
-
-	public DummyAgent(){
-		super(-2);
-	}
 	
-	public DummyAgent(int id){
-		super(id);
+	public DummyAgent(String id, String building){
+		super(id, building);
 	}
 	
 	@Override
@@ -33,7 +29,6 @@ public class DummyAgent extends Agent {
 	}
 
 	public void handleEvents(Simulation state){
-		LinkedList<Event> events = state.getEventsForRobotID(super.id);
 		if(!events.isEmpty()){
 			for(int i = 0; i < events.size(); i++){
 				if(events.get(i).getEventType().toLowerCase().equals("fire")){

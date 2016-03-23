@@ -1,8 +1,10 @@
 package edu.vt.ece5574.sim;
 
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Vector;
 
+import edu.vt.ece5574.agents.Agent;
+import edu.vt.ece5574.agents.Building;
 import edu.vt.ece5574.agents.Robot;
 import edu.vt.ece5574.events.Event;
 import sim.engine.*;
@@ -22,13 +24,8 @@ public class Simulation extends SimState {
     public int numRobots = 5;
     
     public Configuration config;
-    public Vector<Building> buildings;
-    //public Vector<DummyAgent> dummyRobots;
-    public Vector<Robot> Robots;
+    public HashMap<String, Agent> agents; //map the agent id to the agent itself
     
-    LinkedList<Event> events; 	// For now, events are only added, not removed.  
-    							// Likely, the building will cause some cleanup 
-    							// once the event is handled 
 
     public Simulation(long seed){
     	super(seed); //needs to be first line, can't just set seed here
@@ -47,10 +44,7 @@ public class Simulation extends SimState {
             	System.out.println("Ignore other message noting the job number and seed value.");
         	}
         }
-        buildings = new Vector<Building>();
-        Robots = new Vector<Robot>();
-        events = new LinkedList<Event>();
-        
+        agents = new HashMap<String, Agent>();
     }
     
 	public static void main(String[] args) {
@@ -64,70 +58,37 @@ public class Simulation extends SimState {
         
         //clear the room of previous actors
         room.clear();
-        
+
+        int numBuildings = config.getNumBuildings();
         for(int i = 0; i < numRobots; i++){
         	Robot agent = new Robot(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
-					room.getHeight() * 0.5 + random.nextDouble() - 0.5,Color.WHITE,i);
+					room.getHeight() * 0.5 + random.nextDouble() - 0.5,Color.WHITE, new Integer(i+numBuildings).toString(), "0");
         	room.setObjectLocation(agent,
         			new Double2D(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
         					room.getHeight() * 0.5 + random.nextDouble() - 0.5));
-        	Robots.add(agent);
+        	agents.put(new Integer(i+1).toString(), agent);
         	schedule.scheduleRepeating(agent);
         }
 
-        int numBuildings = config.getNumBuildings();
         for(int i = 0; i < numBuildings; i++){
-        	buildings.add(new Building(100, 100, 5, 2));
+        	agents.put(new Integer(i).toString(), new Building(100, 100, 5, 2, new Integer(i).toString()));
         }
     }
     
     public void incomingEvent(Event event){
-    	events.add(event);
+    	LinkedList<String> acceptingAgents = event.getAgentsToAccept();
+    	for(int i = 0; i < acceptingAgents.size(); i++){
+    		agents.get(acceptingAgents.get(i)).addEvent(event);
+    	}
     }
     
+
     /**
-     * Gets all of the pending emergency events for the appropriate robot.
-     * This is case sensitive so make sure things match
-     * @param id The ID of the robot to get events for
-     * @return The linked list of events
+     * Get the agent by the provided string ID
+     * @param id the id of the agent
+     * @return the agent object itself or null if not found
      */
-    public LinkedList<Event> getEventsForRobotID(int id){
-    	LinkedList<Event> robotEvents = new LinkedList<Event>();
-    	for(int i = 0; i < events.size(); i++){
-    		LinkedList<Integer> robotIDs = events.get(i).getRobotIDsToAccept();
-    		if(robotIDs == null){
-    			continue;
-    		}
-    		for(int j = 0; j < robotIDs.size(); j++){
-    			if(robotIDs.get(j).intValue() == id){
-    	    		robotEvents.add(events.get(i));
-    	    		break;
-    			}
-    		}
-    	}
-		return robotEvents;
-    }
-    
-    /**
-     * Gets all of the pending emergency events for the appropriate user.
-     * This is case sensitive so make sure things match
-     * @param id The ID of the user to get events for
-     * @return The linked list of events
-     */
-    public LinkedList<Event> getEventsForUserID(int id){
-    	LinkedList<Event> robotEvents = new LinkedList<Event>();
-    	for(int i = 0; i < events.size(); i++){
-    		LinkedList<Integer> userIDs = events.get(i).getUserIDsToAccept();
-    		if(userIDs == null){
-    			continue;
-    		}
-    		for(int j = 0; j < userIDs.size(); j++){
-    			if(userIDs.get(j).intValue() == id){
-    	    		robotEvents.add(events.get(i));
-    	    		break;
-    			}
-    		}
-    	}
-		return robotEvents;
-    }
+	public Agent getAgentByID(String id) {
+		return agents.get(id);
+	}
 }

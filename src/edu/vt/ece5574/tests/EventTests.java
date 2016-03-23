@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import org.junit.Before;
 import org.junit.Test;
 
+import edu.vt.ece5574.agents.Agent;
 import edu.vt.ece5574.events.*;
 import edu.vt.ece5574.sim.Simulation;
 
@@ -248,7 +249,7 @@ public class EventTests {
 	public void insertFire(){
 		FireEvent event = createFire();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(1);
+		Agent agent = sim.getAgentByID(1);
 		assertEquals("0", events.get(0).getEventID());
 	}
 	

@@ -18,8 +18,7 @@ public abstract class Event {
 
 
 	protected String eventID = "-1"; 
-	protected LinkedList<Integer> robotsToAccept = null;
-	protected LinkedList<Integer> usersToAccept = null;
+	protected LinkedList<String> agentsToAccept = null;
 	protected long room = -1;
 	protected int floor = -1;
 	protected int x_pos = -1;
@@ -112,23 +111,15 @@ public abstract class Event {
 			}
 
 			
-			JSONArray robotIDs = (JSONArray) body.get("robots");
+			JSONArray robotIDs = (JSONArray) body.get("id");
 			if(robotIDs != null){
-				robotsToAccept = new LinkedList<Integer>();
+				agentsToAccept = new LinkedList<String>();
 				for(int i = 0 ; i < robotIDs.size(); i++){
-					int id = (int)(long) robotIDs.get(i);
-					robotsToAccept.add(new Integer(id));
+					String id = (String) robotIDs.get(i);
+					agentsToAccept.add(id);
 				}
 			}
 
-			JSONArray userIDs = (JSONArray) body.get("users");
-			if(userIDs != null){
-				usersToAccept = new LinkedList<Integer>();
-				for(int i = 0; i < userIDs.size(); i++){
-					int id = (int)(long) userIDs.get(i);
-					usersToAccept.add(new Integer(id));
-				}
-			}
 			//robotIDs.get(0);
 		}catch (ParseException e){
 			System.err.println("position: " + e.getPosition());
@@ -142,16 +133,8 @@ public abstract class Event {
 	 * Gets all of the IDs of Robots who will need to respond to this event
 	 * @return The linked list of robot ids
 	 */
-	public LinkedList<Integer> getRobotIDsToAccept(){
-		return robotsToAccept;
-	}
-	
-	/**
-	 * Gets all of the IDs of Users who will need to respond to this event
-	 * @return The linked list of user ids
-	 */
-	public LinkedList<Integer> getUserIDsToAccept(){
-		return usersToAccept;
+	public LinkedList<String> getAgentsToAccept(){
+		return agentsToAccept;
 	}
 	
 	/**

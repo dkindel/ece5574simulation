@@ -25,7 +25,7 @@ public class RobotAgentTest {
 	public void init(){
 		sim = new Simulation(1);
 		Rob = new Robot(sim.room.getWidth() * 0.5 + sim.random.nextDouble() - 0.5,
-				sim.room.getHeight() * 0.5 + sim.random.nextDouble() - 0.5,Color.WHITE,0);
+				sim.room.getHeight() * 0.5 + sim.random.nextDouble() - 0.5,Color.WHITE, "1", "0");
     	sim.room.setObjectLocation(Rob,
     			new Double2D(sim.room.getWidth() * 0.5 + sim.random.nextDouble() - 0.5,
     					sim.room.getHeight() * 0.5 + sim.random.nextDouble() - 0.5));

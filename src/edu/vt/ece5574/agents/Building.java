@@ -1,6 +1,6 @@
-package edu.vt.ece5574.sim;
+package edu.vt.ece5574.agents;
 
-import edu.vt.ece5574.agents.Agent;
+import edu.vt.ece5574.sim.Matrix;
 import sim.engine.SimState;
 
 
@@ -27,8 +27,8 @@ public class Building extends Agent{
     private Matrix matrix;
     
     
-	public Building(int width, int height, int floor, int room){
-		super(-2);
+	public Building(int width, int height, int floor, int room, String id){
+		super(id, id);
 		
 		this.numRooms = room;
 		this.numFloors = floor;

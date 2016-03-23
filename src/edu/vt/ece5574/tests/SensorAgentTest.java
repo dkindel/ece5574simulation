@@ -16,7 +16,7 @@ public class SensorAgentTest {
 	public void checkFireSensor() {
 	
 
-		Sensor firesensor = new Sensor("FIRE", 1);
+		Sensor firesensor = new Sensor("FIRE", "1", "0");
 		assertEquals(firesensor.getSensorType(),"FIRE");	
 		
 	}
@@ -25,7 +25,7 @@ public class SensorAgentTest {
 	public void checkWaterLeakSensor() {
 	
 
-		Sensor firesensor = new Sensor("WATERLEAK", 1);
+		Sensor firesensor = new Sensor("WATERLEAK", "1", "0");
 		assertEquals(firesensor.getSensorType(),"WATERLEAK");	
 		
 	}

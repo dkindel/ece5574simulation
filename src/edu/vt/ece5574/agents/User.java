@@ -5,7 +5,6 @@ import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.IntruderEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
-import edu.vt.ece5574.sim.Simulation;
 import sim.engine.SimState;
 
 
@@ -19,8 +18,6 @@ public class User extends Agent{
 	
 	LinkedList<Event> userEvents;
 	private static final long serialVersionUID = 1;
-	private int buildingID;
-	public static final int DEFAULT_BUILDING = 0;
 	private boolean isAppUser;
 	public void handleUserEvents(){
 		while(userEvents.size()!=0)
@@ -39,38 +36,31 @@ public class User extends Agent{
 		}
 	}
 	
-	public User(int usrID, int building, boolean bAppUser){
-		super(usrID);
-		buildingID = building;
+	public User(String usrID, String building, boolean bAppUser){
+		super(usrID, building);
 		isAppUser = bAppUser;
 	}
 	
-	public User(int usrID, int building){
-		super(usrID);
-		buildingID = building;
-		isAppUser = false;
-	}
-	
-	public User(int usrID){
-		super(usrID);
-		buildingID = DEFAULT_BUILDING;
+	public User(String usrID, String building){
+		super(usrID, building);
 		isAppUser = false;
 	}
 	
 	
-	public int getUserID()
+	
+	public String getUserID()
 	{
 		return super.id;
 	}
 	
-	public int getBuildingID()
+	public String getBuildingID()
 	{
-		return buildingID;
+		return super.buildingID;
 	}
 	
-	public void setBuildingID(int id)
+	public void setBuildingID(String id)
 	{
-		buildingID = id;
+		super.buildingID = id;
 	}
 	
 	public boolean isAppUser(){
@@ -88,10 +78,8 @@ public class User extends Agent{
 	
 	@Override
 	public void step(SimState state) {
-		// TODO Auto-generated method stub
-		Simulation simState = (Simulation)state;		
-		userEvents.addAll(simState.getEventsForRobotID(super.id));
-		if(userEvents.isEmpty()){
+		//Simulation simState = (Simulation)state;
+		if(events.isEmpty()){
 			//if no event, create event for the robots to handle
 			createRandomEvent();
 		}
