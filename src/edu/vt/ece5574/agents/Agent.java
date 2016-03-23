@@ -72,5 +72,9 @@ public abstract class Agent extends OvalPortrayal2D implements Steppable {
 		return events;
 	}
 	
+	public String getID(){
+		return id;
+	}
+	
 	
 }

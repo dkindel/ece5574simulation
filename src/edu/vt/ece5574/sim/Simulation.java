@@ -26,7 +26,6 @@ public class Simulation extends SimState {
     public Configuration config;
     public HashMap<String, Agent> agents; //map the agent id to the agent itself
     
-
     public Simulation(long seed){
     	super(seed); //needs to be first line, can't just set seed here
     	
@@ -75,6 +74,12 @@ public class Simulation extends SimState {
         }
     }
     
+    /**
+     * For *any* incoming event, there's at least 1 associated ID of a user accepting 
+     * that event.  Take that ID and find the agent for it.  Add the event to that agent's 
+     * event list. 
+     * @param event The event to add.  
+     */
     public void incomingEvent(Event event){
     	LinkedList<String> acceptingAgents = event.getAgentsToAccept();
     	for(int i = 0; i < acceptingAgents.size(); i++){
@@ -82,6 +87,29 @@ public class Simulation extends SimState {
     	}
     }
     
+    /**
+     * Add an agent into the environment. It gets placed into the global agent list if 
+     * there wasn't an agent with that ID previously.  If there was, false is returned.
+     * @param agent The agent to place into the simulation
+     * @return True if the agent is placed in with a unique ID.  False if an agent had this ID previously
+     */
+    public boolean addAgent(Agent agent){
+    	if(agents.get(agent.getID()) != null){
+    		return false;
+    	}
+    	agents.put(agent.getID(), agent);
+    	return true;
+    }
+    
+    /**
+     * Remove the agent from the simulation environment by removing it from the global agent list.
+     * 
+     * @param agent The agent to remove
+     * @return Returns the agent that was removed if it was in the list, null if it wasn't.
+     */
+    public Agent removeAgent(Agent agent){
+    	return agents.remove(agent.getID());
+    }
 
     /**
      * Get the agent by the provided string ID

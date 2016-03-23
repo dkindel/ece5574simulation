@@ -56,14 +56,14 @@ public class EventTests {
 				+ "\"body\":{"
 				+ "\"msg_type\": \"fire\","
 				+ "\"body\": {"
-				+ "\"building\": 0,"
+				+ "\"building\": \"0\","
 				+ "\"room\": 1,"
 				+ "\"floor\": 2,"
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
 				+ "\"action\": \"Extinguish\","
-				+ "\"robots\": [0,1]" //id is the id of the agent to handle the event
+				+ "\"id\": [\"2\",\"1\"]" //id is the id of the agent to handle the event
 				+ "}"
 				+ "}"
 				+ "}";
@@ -71,7 +71,7 @@ public class EventTests {
 		FireEvent event = new FireEvent();
 		assertTrue(event.init(details));
 		assertEquals("fire", event.getEventType());
-		assertEquals(0, event.getBuilding());
+		assertEquals("0", event.getBuilding());
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
@@ -89,14 +89,14 @@ public class EventTests {
 				+ "\"body\":{"
 				+ "\"msg_type\": \"water leak\","
 				+ "\"body\": {"
-				+ "\"building\": 0,"
+				+ "\"building\": \"0\","
 				+ "\"room\": 1,"
 				+ "\"floor\": 2,"
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
 				+ "\"action\": \"fix plumbing\","
-				+ "\"robots\": [0]" //id is the id of the agent to handle the event
+				+ "\"id\": [\"1\"]" //id is the id of the agent to handle the event
 				+ "}"
 				+ "}"
 				+ "}";
@@ -104,7 +104,7 @@ public class EventTests {
 		WaterLeakEvent event = new WaterLeakEvent();
 		assertTrue(event.init(details));
 		assertEquals("water leak", event.getEventType());
-		assertEquals(0, event.getBuilding());
+		assertEquals("0", event.getBuilding());
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
@@ -122,14 +122,14 @@ public class EventTests {
 				+ "\"body\":{"
 				+ "\"msg_type\": \"intruder\","
 				+ "\"body\": {"
-				+ "\"building\": 0,"
+				+ "\"building\": \"0\","
 				+ "\"room\": 1,"
 				+ "\"floor\": 2,"
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
 				+ "\"action\": \"defend\","
-				+ "\"robots\": [0]" //id is the id of the agent to handle the event
+				+ "\"id\": [\"1\"]" //id is the id of the agent to handle the event
 				+ "}"
 				+ "}"
 				+ "}";
@@ -137,7 +137,7 @@ public class EventTests {
 		IntruderEvent event = new IntruderEvent();
 		assertTrue(event.init(details));
 		assertEquals("intruder", event.getEventType());
-		assertEquals(0, event.getBuilding());
+		assertEquals("0", event.getBuilding());
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
@@ -155,13 +155,13 @@ public class EventTests {
 				+ "\"body\":{"
 				+ "\"msg_type\": \"move robot\","
 				+ "\"body\": {"
-				+ "\"building\": 0,"
+				+ "\"building\": \"0\","
 				+ "\"room\": 1,"
 				+ "\"floor\": 2,"
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
-				+ "\"robots\": [0]" //id is the id of the agent to handle the event
+				+ "\"id\": [\"1\"]" //id is the id of the agent to handle the event
 				+ "}"
 				+ "}"
 				+ "}";
@@ -169,7 +169,7 @@ public class EventTests {
 		MoveRobotEvent event = new MoveRobotEvent();
 		assertTrue(event.init(details));
 		assertEquals("move robot", event.getEventType());
-		assertEquals(0, event.getBuilding());
+		assertEquals("0", event.getBuilding());
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
@@ -186,14 +186,14 @@ public class EventTests {
 				+ "\"body\":{"
 				+ "\"msg_type\": \"water leak\","
 				+ "\"body\": {"
-				+ "\"building\": 0,"
+				+ "\"building\": \"0\","
 				+ "\"room\": 1,"
 				+ "\"floor\": 2,"
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
 				+ "\"message\": \"There was a water leak in the building\","
-				+ "\"users\": [4,10,1]" //id is the id of the agent to handle the event
+				+ "\"id\": [\"4\",\"10\",\"1\"]" //id is the id of the agent to handle the event
 				+ "}"
 				+ "}"
 				+ "}";
@@ -201,7 +201,7 @@ public class EventTests {
 		WaterLeakEvent event = new WaterLeakEvent();
 		assertTrue(event.init(details));
 		assertEquals("water leak", event.getEventType());
-		assertEquals(0, event.getBuilding());
+		assertEquals("0", event.getBuilding());
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
@@ -219,14 +219,14 @@ public class EventTests {
 				+ "\"body\":{"
 				+ "\"msg_type\": \"message\","
 				+ "\"body\": {"
-				+ "\"building\": 0,"
+				+ "\"building\": \"0\","
 				+ "\"room\": 1,"
 				+ "\"floor\": 2,"
 				+ "\"xpos\": 3,"
 				+ "\"ypos\": 4,"
 				+ "\"severity\": 5,"
 				+ "\"message\": \"Electricity will be off between 9am-5pm.\","
-				+ "\"users\": [4,10,1]" //id is the id of the agent to handle the event
+				+ "\"id\": [\"4\",\"10\",\"1\"]" //id is the id of the agent to handle the event
 				+ "}"
 				+ "}"
 				+ "}";
@@ -234,7 +234,7 @@ public class EventTests {
 		UserMessageEvent event = new UserMessageEvent();
 		assertTrue(event.init(details));
 		assertEquals("message", event.getEventType());
-		assertEquals(0, event.getBuilding());
+		assertEquals("0", event.getBuilding());
 		assertEquals(1, event.getRoom());
 		assertEquals(2, event.getFloor());
 		assertEquals(3, event.getX_pos());
@@ -249,16 +249,17 @@ public class EventTests {
 	public void insertFire(){
 		FireEvent event = createFire();
 		sim.incomingEvent(event);
-		Agent agent = sim.getAgentByID(1);
-		assertEquals("0", events.get(0).getEventID());
+		Agent agent = sim.getAgentByID("1");
+		assertEquals("0", agent.getEventList().get(0).getEventID());
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
 	public void insertFireGetOOBEvent(){
 		FireEvent event = createFire();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(1);
-		assertEquals("0", events.get(0).getEventID());
+		Agent agent = sim.getAgentByID("1");
+		LinkedList<Event> events = agent.getEventList();
+		assertEquals("1", events.get(0).getEventID());
 		events = sim.getEventsForRobotID(0);
 		assertEquals("0", events.get(0).getEventID());
 		events.get(1);
@@ -329,7 +330,7 @@ public class EventTests {
 	public void insertUserWaterLeakNoRobots(){
 		WaterLeakEvent event = createWaterLeakForUser();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(0);
+		LinkedList<Agent> events = sim.getAgentByID("0");
 		assertEquals(0, events.size());
 	}
 	
