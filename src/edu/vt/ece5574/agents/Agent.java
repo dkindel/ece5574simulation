@@ -19,7 +19,7 @@ public abstract class Agent extends OvalPortrayal2D implements Steppable {
 	private static final long serialVersionUID = 1;
 	
 	protected String id = "abcd";
-	protected String buildingID = "0";
+	protected String buildingID = "0"; //a building will have the same ID as building ID
 	
 	protected LinkedList<Event> events;
 
@@ -76,5 +76,8 @@ public abstract class Agent extends OvalPortrayal2D implements Steppable {
 		return id;
 	}
 	
+	public String getBuildingID(){
+		return buildingID;
+	}
 	
 }

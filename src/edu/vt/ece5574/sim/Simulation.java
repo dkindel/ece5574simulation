@@ -102,10 +102,25 @@ public class Simulation extends SimState {
      * 
      * This may also be used in testing
      * 
+     * This function should never be called if the building hasn't already been added
+     * unless you're adding a building itself.
+     * Furthermore, every agent must be assigned to a building prior to calling this.
+     * 
      * @param agent The agent to place into the simulation
-     * @return True if the agent is placed in with a unique ID.  False if an agent had this ID previously
+     * @return True if the agent is placed in with a unique ID.  False if it couldn't be added
+     * due to a bad ID or no building ID set
      */
     public boolean addAgent(Agent agent){
+    	if(agent == null){
+    		return false;
+    	}
+    	System.out.println();
+    	if(agent.getBuildingID() == null || agent.getID() == null || 
+    			(agents.get(agent.getBuildingID()) == null 
+    			&& agent.getClass() != Building.class)){
+			return false;
+    	}
+    	
     	if(agents.get(agent.getID()) != null){
     		return false;
     	}
@@ -120,6 +135,9 @@ public class Simulation extends SimState {
      * @return Returns the agent that was removed if it was in the list, null if it wasn't.
      */
     public Agent removeAgent(Agent agent){
+    	if(agent == null){
+    		return null;
+    	}
     	return agents.remove(agent.getID());
     }
 

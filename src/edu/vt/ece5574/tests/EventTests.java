@@ -457,12 +457,7 @@ public class EventTests {
 		assertNull(sim.getAgentByID("4"));
 	}
 	
-	@Test
-	public void agentAddingGoodID(){
-		assertTrue(sim.addAgent(new Robot("112", "0")));
-		assertNotNull(sim.getAgentByID("112"));
-		assertEquals("112", sim.getAgentByID("112").getID());
-	}
+	
 	
 	@Test
 	public void malformedJSONObject(){
