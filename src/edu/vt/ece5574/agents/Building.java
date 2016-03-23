@@ -1,11 +1,11 @@
-package edu.vt.ece5574.sim;
+package edu.vt.ece5574.agents;
 
-import edu.vt.ece5574.agents.AbstractAgent;
+import edu.vt.ece5574.sim.Matrix;
 import sim.engine.SimState;
 
 
 
-public class Building extends AbstractAgent{
+public class Building extends Agent{
 	
 	public enum Obstacle {
 	    obstacle, emergency 
@@ -26,9 +26,16 @@ public class Building extends AbstractAgent{
 	
     private Matrix matrix;
     
-    
-	public Building(int width, int height, int floor, int room){
-		super(-2);
+    /**
+     * Create a new building with provided parameters and the id
+     * @param width
+     * @param height
+     * @param floor
+     * @param room
+     * @param id
+     */
+	public Building(int width, int height, int floor, int room, String id){
+		super(id, id);
 		
 		this.numRooms = room;
 		this.numFloors = floor;
@@ -59,7 +66,13 @@ public class Building extends AbstractAgent{
         return height;
     }
     
+    public int getNumRooms() {
+    	return numRooms;
+    }
     
+    public int getNumFloors() {
+    	return numFloors;
+    }
 
 	@Override
 	public void step(SimState arg0) {

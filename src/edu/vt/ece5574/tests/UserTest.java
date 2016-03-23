@@ -16,26 +16,26 @@ public class UserTest {
 
 	@Test
 	public void checkDefaultBuildingId() {
-		User user = new User();
-		assertEquals(user.getBuildingID(),User.DEFAULT_BUILDING);		
+		User user = new User("1", "0");
+		assertEquals(user.getBuildingID(), "0");		
 	}
 	
 	@Test
 	public void checkBuildingId() {
-		User user = new User();
-		user.setBuildingID(5000);
+		User user = new User("1", "0");
+		user.setBuildingID("5000");
 		assertEquals(user.getBuildingID(),5000);		
 	}
 	
 	@Test
 	public void checkDefaultAppUser() {
-		User user = new User();
+		User user = new User("1", "0");
 		assertEquals(user.isAppUser(),false);		
 	}
 	
 	@Test
 	public void checkAppUser() {
-		User user = new User();
+		User user = new User("1", "0");
 		user.setAppUser(true);
 		assertEquals(user.isAppUser(),true);		
 	}
@@ -43,9 +43,9 @@ public class UserTest {
 	@Test
 	public void checkDefaultUser() {
 		int id = 5;
-		User user = new User(id);
+		User user = new User("1", "0");
 		assertEquals(user.getUserID(), id);
-		assertEquals(user.getBuildingID(),User.DEFAULT_BUILDING);
+		assertEquals(user.getBuildingID(),"0");
 		assertEquals(user.isAppUser(),false);
 	}
 

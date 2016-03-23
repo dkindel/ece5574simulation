@@ -21,11 +21,11 @@ public class Users {
 		return userList;
 	}
 	
-	public User getUser(int id)
+	public User getUser(String id)
 	{		
 		for (int i=0; i<userList.size();++i)
 		{
-			if(userList.get(i).getUserID()==id)
+			if(userList.get(i).getUserID().equals(id))
 			{
 				//The building is found
 				return userList.get(i);
@@ -37,14 +37,14 @@ public class Users {
 	public void createNewUser()
 	{
 		
-		userList.add(new User());
+		userList.add(new User("1", "0"));
 	}
 	
-	public boolean isUserExisting(int id)
+	public boolean isUserExisting(String id)
 	{		
 		for (int i=0; i<userList.size();++i)
 		{
-			if(userList.get(i).getUserID()==id)
+			if(userList.get(i).getUserID().equals(id))
 			{
 				//The building is found
 				return true;
@@ -58,11 +58,11 @@ public class Users {
 		userList.clear();
 	}	
 	
-	public void removeUser(int id)
+	public void removeUser(String id)
 	{
 		for (int i=0; i<userList.size();++i)
 		{
-			if(userList.get(i).getUserID()==id)
+			if(userList.get(i).getUserID().equals(id))
 			{
 				//The building is found
 				userList.remove(i);
@@ -70,28 +70,28 @@ public class Users {
 		}		
 	}
 	
-	public ArrayList<Integer> getAppInstalledUsersID()
+	public ArrayList<String> getAppInstalledUsersID()
 	{
-		ArrayList<Integer> arrAppInstalledUsers = new ArrayList<Integer>();
+		ArrayList<String> arrAppInstalledUsers = new ArrayList<String>();
 		for (int i=0;i<userList.size();++i)
 		{
 			if (userList.get(i).isAppUser())
 			{
-				int userID = userList.get(i).getUserID();
+				String userID = userList.get(i).getUserID();
 				arrAppInstalledUsers.add(userID);
 			}
 		}		
 		return arrAppInstalledUsers;		
 	}
 	
-	public ArrayList<Integer> getUsersInBuilding(int buildingID)
+	public ArrayList<String> getUsersInBuilding(String buildingID)
 	{
-		ArrayList<Integer> arrUserID = new ArrayList<Integer>();
+		ArrayList<String> arrUserID = new ArrayList<String>();
 		for (int i=0;i<userList.size();++i)
 		{
-			if (userList.get(i).getBuildingID() == buildingID)
+			if (userList.get(i).getBuildingID().equals(buildingID))
 			{
-				int userID = userList.get(i).getUserID();
+				String userID = userList.get(i).getUserID();
 				arrUserID.add(userID);
 			}
 		}		

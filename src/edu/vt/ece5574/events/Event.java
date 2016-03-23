@@ -18,8 +18,7 @@ public abstract class Event {
 
 
 	protected String eventID = "-1"; 
-	protected LinkedList<Integer> robotsToAccept = null;
-	protected LinkedList<Integer> usersToAccept = null;
+	protected LinkedList<String> agentsToAccept = null;
 	protected long room = -1;
 	protected int floor = -1;
 	protected int x_pos = -1;
@@ -28,8 +27,12 @@ public abstract class Event {
 	protected String type = null;
 	protected String action = null;
 	protected String message = null;
-	protected int building = -1;
+	protected String building = "-1";
+	protected String newAgentID = "-1";
 	
+	public Event(){
+		agentsToAccept = new LinkedList<String>();
+	}
 	
 
 
@@ -39,15 +42,28 @@ public abstract class Event {
 			Object obj = parser.parse(details);
 			JSONObject json = (JSONObject) obj;
 
-
 			Object attr = json.get("messageId");
 			if(attr == null){
-				System.err.println("Missing required event ID.");
+				System.err.println("Missing required event/message ID.");
 				return false;
 			}
 			eventID = (String) attr;
 			
 			json = (JSONObject) json.get("body");
+
+			JSONArray ids = (JSONArray) json.get("id");
+			if(ids != null){
+				for(int i = 0 ; i < ids.size(); i++){
+					String id = (String) ids.get(i);
+					agentsToAccept.add(id);
+				}
+			}
+			else{
+				System.err.println("Missing IDs to send event to in incoming message from the server.");
+				return false;
+			}
+
+			json = (JSONObject) json.get("message");
 			
 			attr = json.get("msg_type");
 			if(attr == null){
@@ -59,47 +75,88 @@ public abstract class Event {
 			
 			JSONObject body = (JSONObject) json.get("body");
 			attr = body.get("building");
-			if(attr == null){
-				System.err.println("Missing required building number.");
+			if(attr != null){
+				building = (String) attr;
+			}
+			else if(type.equals("fire")	|| type.equals("water leak") 
+					|| type.equals("gas leak") || type.equals("intruder") 
+					|| type.equals("move robot") || type.equals("update status") 
+					|| type.equals("new robot") || type.equals("new sensor") 
+					|| type.equals("new user"))
+			{
+				System.err.println("Missing required building ID for type " + type);
 				return false;
 			}
-			building = (int) (long) attr;
 
 			attr = body.get("room");
-			if(attr == null){
-				System.err.println("Missing required room number.");
+			if(attr != null){
+				room = (int) (long) attr;
+			}
+			else if(type.equals("fire")	|| type.equals("water leak") 
+					|| type.equals("gas leak") || type.equals("intruder") 
+					|| type.equals("move robot") || type.equals("update status") 
+					|| type.equals("new robot") || type.equals("new sensor") 
+					|| type.equals("new user"))
+			{
+				System.err.println("Missing required room number for type " + type);
 				return false;
 			}
-			room = (int) (long) attr;
 			
 			attr = body.get("floor");
-			if(attr == null){
-				System.err.println("Missing required floor number.");
+			if(attr != null){
+				floor = (int) (long) attr;
+			}
+			else if(type.equals("fire")	|| type.equals("water leak") 
+					|| type.equals("gas leak") || type.equals("intruder") 
+					|| type.equals("move robot") || type.equals("update status") 
+					|| type.equals("new robot") || type.equals("new sensor") 
+					|| type.equals("new user"))
+			{
+				System.err.println("Missing required floor number for type " + type);
 				return false;
 			}
-			floor = (int) (long) attr;
 			
 			attr = body.get("xpos");
-			if(attr == null){
-				System.err.println("Missing required xpos number.");
+			if(attr != null){
+				x_pos = (int) (long) attr;
+			}
+			else if(type.equals("fire")	|| type.equals("water leak") 
+					|| type.equals("gas leak") || type.equals("intruder") 
+					|| type.equals("move robot") || type.equals("update status") 
+					|| type.equals("new robot") || type.equals("new sensor") 
+					|| type.equals("new user"))
+			{
+				System.err.println("Missing required x position for type " + type);
 				return false;
 			}
-			x_pos = (int) (long) attr;
 			
 
 			attr = body.get("ypos");
-			if(attr == null){
-				System.err.println("Missing required ypos number.");
+			if(attr != null){
+				y_pos = (int) (long) attr;
+			}
+			else if(type.equals("fire")	|| type.equals("water leak") 
+					|| type.equals("gas leak") || type.equals("intruder") 
+					|| type.equals("move robot") || type.equals("update status") 
+					|| type.equals("new robot") || type.equals("new sensor") 
+					|| type.equals("new user"))
+			{
+				System.err.println("Missing required y position for type " + type);
 				return false;
 			}
-			y_pos = (int) (long) attr;
 			
 			attr = body.get("severity");
-			if(attr == null){
-				System.err.println("Missing required severity number.");
+			if(attr != null){
+				severity = (int) (long) attr;
+			}
+			else if(type.equals("fire")	|| type.equals("water leak") 
+					|| type.equals("gas leak") || type.equals("intruder") 
+					|| type.equals("move robot") || type.equals("update status"))
+			{
+				System.err.println("Missing required severity level for type " + type);
 				return false;
 			}
-			severity = (int) (long) attr;
+			
 			
 			attr = body.get("action");
 			if(attr != null){
@@ -110,28 +167,14 @@ public abstract class Event {
 			if(attr != null){
 				message = (String) attr;
 			}
-
+			else if(type.equals("notification"))
+			{
+				System.err.println("Missing required message for type " + type);
+				return false;
+			}
 			
-			JSONArray robotIDs = (JSONArray) body.get("robots");
-			if(robotIDs != null){
-				robotsToAccept = new LinkedList<Integer>();
-				for(int i = 0 ; i < robotIDs.size(); i++){
-					int id = (int)(long) robotIDs.get(i);
-					robotsToAccept.add(new Integer(id));
-				}
-			}
-
-			JSONArray userIDs = (JSONArray) body.get("users");
-			if(userIDs != null){
-				usersToAccept = new LinkedList<Integer>();
-				for(int i = 0; i < userIDs.size(); i++){
-					int id = (int)(long) userIDs.get(i);
-					usersToAccept.add(new Integer(id));
-				}
-			}
-			//robotIDs.get(0);
+			
 		}catch (ParseException e){
-			System.err.println("position: " + e.getPosition());
 			System.err.println(e);
 			return false;
 		}
@@ -142,16 +185,8 @@ public abstract class Event {
 	 * Gets all of the IDs of Robots who will need to respond to this event
 	 * @return The linked list of robot ids
 	 */
-	public LinkedList<Integer> getRobotIDsToAccept(){
-		return robotsToAccept;
-	}
-	
-	/**
-	 * Gets all of the IDs of Users who will need to respond to this event
-	 * @return The linked list of user ids
-	 */
-	public LinkedList<Integer> getUserIDsToAccept(){
-		return usersToAccept;
+	public LinkedList<String> getAgentsToAccept(){
+		return agentsToAccept;
 	}
 	
 	/**
@@ -206,9 +241,9 @@ public abstract class Event {
 	}
 	
 	/**
-	 * @return the building
+	 * @return the building ID
 	 */
-	public int getBuilding() {
+	public String getBuilding() {
 		return building;
 	}
 	/**
@@ -232,6 +267,7 @@ public abstract class Event {
 
 
 			json = (JSONObject) json.get("body");
+			json = (JSONObject) json.get("message");
 			
 			Object attr = json.get("msg_type");
 			if(attr == null){

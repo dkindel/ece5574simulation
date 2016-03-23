@@ -11,17 +11,20 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.IntruderEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.SimState;
-import sim.engine.Steppable
+import sim.engine.Steppable;
 
 
-public class APICaller implements steppable {
+public class APICaller implements Steppable {
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1;
 int userID;
 int messageID;
 
@@ -89,8 +92,7 @@ public Event callPushSystemAPI(String userID,String messageID) throws Exception{
         }
         
         else{
-        	Event e = new Event();
-        	return e;
+        	return null;
         }
         
         
@@ -99,6 +101,7 @@ public Event callPushSystemAPI(String userID,String messageID) throws Exception{
     } finally {
         httpclient.close();
     }
+	return null;
 }
 
 @Override
@@ -106,7 +109,12 @@ public void step(SimState state) {
 	//Check for events
 	Simulation simState = (Simulation)state;
 	
-	simState.incomingEvent(callPushSystemAPI("1","1"));
+	try {
+		simState.incomingEvent(callPushSystemAPI("1","1"));
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	
 }
 

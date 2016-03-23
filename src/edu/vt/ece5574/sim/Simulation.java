@@ -1,10 +1,11 @@
 package edu.vt.ece5574.sim;
 
+import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Vector;
 
+import edu.vt.ece5574.agents.Agent;
+import edu.vt.ece5574.agents.Building;
 import edu.vt.ece5574.agents.Robot;
-import edu.vt.ece5574.dummyclasses.DummyAgent;
 import edu.vt.ece5574.events.Event;
 import sim.engine.*;
 import sim.field.continuous.Continuous2D;
@@ -23,14 +24,8 @@ public class Simulation extends SimState {
     public int numRobots = 5;
     
     public Configuration config;
-    public Vector<Building> buildings;
-    //public Vector<DummyAgent> dummyRobots;
-    public Vector<Robot> Robots;
+    public HashMap<String, Agent> agents; //map the agent id to the agent itself
     
-    LinkedList<Event> events; 	// For now, events are only added, not removed.  
-    							// Likely, the building will cause some cleanup 
-    							// once the event is handled 
-
     public Simulation(long seed){
     	super(seed); //needs to be first line, can't just set seed here
     	
@@ -48,10 +43,7 @@ public class Simulation extends SimState {
             	System.out.println("Ignore other message noting the job number and seed value.");
         	}
         }
-        buildings = new Vector<Building>();
-        Robots = new Vector<Robot>();
-        events = new LinkedList<Event>();
-        
+        agents = new HashMap<String, Agent>();
     }
     
 	public static void main(String[] args) {
@@ -65,70 +57,96 @@ public class Simulation extends SimState {
         
         //clear the room of previous actors
         room.clear();
-        
+
+        int numBuildings = config.getNumBuildings();
         for(int i = 0; i < numRobots; i++){
         	Robot agent = new Robot(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
-					room.getHeight() * 0.5 + random.nextDouble() - 0.5,Color.WHITE,i);
+					room.getHeight() * 0.5 + random.nextDouble() - 0.5,Color.WHITE, new Integer(i+numBuildings).toString(), "0");
         	room.setObjectLocation(agent,
         			new Double2D(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
         					room.getHeight() * 0.5 + random.nextDouble() - 0.5));
-        	Robots.add(agent);
+        	agents.put(new Integer(i+1).toString(), agent);
         	schedule.scheduleRepeating(agent);
         }
 
-        int numBuildings = config.getNumBuildings();
         for(int i = 0; i < numBuildings; i++){
-        	buildings.add(new Building(100, 100, 5, 2));
+        	agents.put(new Integer(i).toString(), new Building(100, 100, 5, 2, new Integer(i).toString()));
         }
     }
     
+    /**
+     * For *any* incoming event, there's at least 1 associated ID of a user accepting 
+     * that event.  Take that ID and find the agent for it.  Add the event to that agent's 
+     * event list. 
+     * 
+     * This only adds the event to agents who have been added to the simulation and does *not*
+     * create new ones if unseen ids are provided.  It will only skip over them
+     * @param event The event to add.  
+     */
     public void incomingEvent(Event event){
-    	events.add(event);
+    	LinkedList<String> acceptingAgents = event.getAgentsToAccept();
+    	for(int i = 0; i < acceptingAgents.size(); i++){
+    		Agent agent = agents.get(acceptingAgents.get(i));
+    		if(agent != null){ //The agent must be in the agent list to be able to act on an event
+    			agent.addEvent(event);
+    		}
+    	}
     }
     
     /**
-     * Gets all of the pending emergency events for the appropriate robot.
-     * This is case sensitive so make sure things match
-     * @param id The ID of the robot to get events for
-     * @return The linked list of events
+     * Add an agent into the environment. It gets placed into the global agent list if 
+     * there wasn't an agent with that ID previously.  If there was, false is returned.
+     * 
+     * This will certainly be called by a building agent but not necessarily by anything else.  
+     * The building will receive an "add robot" event and will then have to call this method.
+     * 
+     * This may also be used in testing
+     * 
+     * This function should never be called if the building hasn't already been added
+     * unless you're adding a building itself.
+     * Furthermore, every agent must be assigned to a building prior to calling this.
+     * 
+     * @param agent The agent to place into the simulation
+     * @return True if the agent is placed in with a unique ID.  False if it couldn't be added
+     * due to a bad ID or no building ID set
      */
-    public LinkedList<Event> getEventsForRobotID(int id){
-    	LinkedList<Event> robotEvents = new LinkedList<Event>();
-    	for(int i = 0; i < events.size(); i++){
-    		LinkedList<Integer> robotIDs = events.get(i).getRobotIDsToAccept();
-    		if(robotIDs == null){
-    			continue;
-    		}
-    		for(int j = 0; j < robotIDs.size(); j++){
-    			if(robotIDs.get(j).intValue() == id){
-    	    		robotEvents.add(events.get(i));
-    	    		break;
-    			}
-    		}
+    public boolean addAgent(Agent agent){
+    	if(agent == null){
+    		return false;
     	}
-		return robotEvents;
+    	System.out.println();
+    	if(agent.getBuildingID() == null || agent.getID() == null || 
+    			(agents.get(agent.getBuildingID()) == null 
+    			&& agent.getClass() != Building.class)){
+			return false;
+    	}
+    	
+    	if(agents.get(agent.getID()) != null){
+    		return false;
+    	}
+    	agents.put(agent.getID(), agent);
+    	return true;
     }
     
     /**
-     * Gets all of the pending emergency events for the appropriate user.
-     * This is case sensitive so make sure things match
-     * @param id The ID of the user to get events for
-     * @return The linked list of events
+     * Remove the agent from the simulation environment by removing it from the global agent list.
+     * 
+     * @param agent The agent to remove
+     * @return Returns the agent that was removed if it was in the list, null if it wasn't.
      */
-    public LinkedList<Event> getEventsForUserID(int id){
-    	LinkedList<Event> robotEvents = new LinkedList<Event>();
-    	for(int i = 0; i < events.size(); i++){
-    		LinkedList<Integer> userIDs = events.get(i).getUserIDsToAccept();
-    		if(userIDs == null){
-    			continue;
-    		}
-    		for(int j = 0; j < userIDs.size(); j++){
-    			if(userIDs.get(j).intValue() == id){
-    	    		robotEvents.add(events.get(i));
-    	    		break;
-    			}
-    		}
+    public Agent removeAgent(Agent agent){
+    	if(agent == null){
+    		return null;
     	}
-		return robotEvents;
+    	return agents.remove(agent.getID());
     }
+
+    /**
+     * Get the agent by the provided string ID
+     * @param id the id of the agent
+     * @return the agent object itself or null if not found
+     */
+	public Agent getAgentByID(String id) {
+		return agents.get(id);
+	}
 }

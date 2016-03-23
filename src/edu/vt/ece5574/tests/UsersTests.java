@@ -42,7 +42,7 @@ public class UsersTests {
 	@Test
 	public void isUserAlreadyExisting() {		
 		users.createNewUser();
-		int id = users.getAllUsers().get(0).getUserID();
+		String id = users.getAllUsers().get(0).getUserID();
 		assertEquals(users.isUserExisting(id), true);
 		users.removeUser(id);
 		assertEquals(users.isUserExisting(id), false);		
@@ -65,8 +65,8 @@ public class UsersTests {
 	public void testAppInstalledUsers() {		
 		users.createNewUser();
 		users.getAllUsers().get(0).setAppUser(true);
-		int id = users.getAllUsers().get(0).getUserID();
-		assertEquals(users.getAppInstalledUsersID().get(0).intValue(),id);		
+		String id = users.getAllUsers().get(0).getUserID();
+		assertEquals(users.getAppInstalledUsersID().get(0),id);		
 	}
 	
 	
@@ -74,17 +74,17 @@ public class UsersTests {
 	public void testGetUsersInBuilding()
 	{
 		users.createNewUser();
-		int id = users.getAllUsers().get(0).getUserID();
-		int bid = 40;
+		String id = users.getAllUsers().get(0).getUserID();
+		String bid = "40";
 		users.getAllUsers().get(0).setBuildingID(bid);
-		assertEquals(users.getUsersInBuilding(bid).get(0).intValue(),id);		
+		assertEquals(users.getUsersInBuilding(bid).get(0),id);		
 	}	
 	
 	@Test
 	public void testRemovalOfUser()
 	{
 		users.createNewUser();
-		int id = users.getAllUsers().get(0).getUserID();
+		String id = users.getAllUsers().get(0).getUserID();
 		users.removeUser(id);
 		assertEquals(users.isUserExisting(id), false);		
 	}	

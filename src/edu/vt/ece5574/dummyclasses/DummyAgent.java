@@ -1,9 +1,6 @@
 package edu.vt.ece5574.dummyclasses;
 
-import java.util.LinkedList;
-
-import edu.vt.ece5574.agents.AbstractAgent;
-import edu.vt.ece5574.events.Event;
+import edu.vt.ece5574.agents.Agent;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
@@ -14,16 +11,12 @@ import sim.engine.*;
  * @author David Kindel
  *
  */
-public class DummyAgent extends AbstractAgent {
+public class DummyAgent extends Agent {
 
 	private static final long serialVersionUID = 1;
-
-	public DummyAgent(){
-		super(-2);
-	}
 	
-	public DummyAgent(int id){
-		super(id);
+	public DummyAgent(String id, String building){
+		super(id, building);
 	}
 	
 	@Override
@@ -33,7 +26,6 @@ public class DummyAgent extends AbstractAgent {
 	}
 
 	public void handleEvents(Simulation state){
-		LinkedList<Event> events = state.getEventsForRobotID(super.id);
 		if(!events.isEmpty()){
 			for(int i = 0; i < events.size(); i++){
 				if(events.get(i).getEventType().toLowerCase().equals("fire")){
