@@ -12,12 +12,10 @@ import edu.vt.ece5574.events.UserMessageEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.SimState;
-import sim.engine.Steppable;
-import sim.portrayal.simple.OvalPortrayal2D;
 import sim.util.Double2D;
 import sim.util.MutableDouble2D;
 
-public class Robot extends OvalPortrayal2D implements Steppable {
+public class Robot extends AbstractAgent {
 
 	private static final long serialVersionUID = 1;
 	private  int robotID;
@@ -61,7 +59,7 @@ public class Robot extends OvalPortrayal2D implements Steppable {
 	
 	public Robot( double newX, double newY,  Color c , int rID)
     {
-    super(c, 2 * 2);  // scale is twice the radius
+    super(c, 2 * 2, rID);  // scale is twice the radius
     
     robotID = rID;
     

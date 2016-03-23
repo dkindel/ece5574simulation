@@ -37,7 +37,7 @@ public class Users {
 	public void createNewUser()
 	{
 		
-		userList.add(new User());
+		userList.add(new User(0));
 	}
 	
 	public boolean isUserExisting(int id)

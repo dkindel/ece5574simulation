@@ -6,11 +6,10 @@ import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;
 import sim.engine.SimState;
-import sim.engine.Steppable;
 
 //Class for sensors. - Author - Ameya Khandekar
 
-public class Sensor implements Steppable {
+public class Sensor extends AbstractAgent {
 	
 
 	private static final long serialVersionUID = 1;
@@ -23,15 +22,15 @@ public class Sensor implements Steppable {
 	private Random waterPressure;
 
 	public Sensor(String typeOfSensor, int id , int roomID_, int buildingID_){
+		super(id);
 		sensorType = typeOfSensor;
-		sensorID = id;
 		temperature = new Random();
 		waterPressure = new Random();
 	}
 
 	public Sensor(String typeOfSensor, int id){
+		super(id);
 		sensorType = typeOfSensor;
-		sensorID = id;
 		temperature = new Random();
 		waterPressure = new Random();
 
