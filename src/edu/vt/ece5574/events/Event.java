@@ -27,8 +27,12 @@ public abstract class Event {
 	protected String type = null;
 	protected String action = null;
 	protected String message = null;
-	protected int building = -1;
+	protected String building = "-1";
+	protected String newAgentID = "-1";
 	
+	public Event(){
+		agentsToAccept = new LinkedList<String>();
+	}
 	
 
 
@@ -38,7 +42,6 @@ public abstract class Event {
 			Object obj = parser.parse(details);
 			JSONObject json = (JSONObject) obj;
 
-
 			Object attr = json.get("messageId");
 			if(attr == null){
 				System.err.println("Missing required event ID.");
@@ -47,6 +50,20 @@ public abstract class Event {
 			eventID = (String) attr;
 			
 			json = (JSONObject) json.get("body");
+			System.out.println(json);
+
+			JSONArray ids = (JSONArray) json.get("id");
+			if(ids != null){
+				for(int i = 0 ; i < ids.size(); i++){
+					String id = (String) ids.get(i);
+					agentsToAccept.add(id);
+				}
+			}
+			System.out.println(json);
+
+			json = (JSONObject) json.get("message");
+			
+			System.out.println(json);
 			
 			attr = json.get("msg_type");
 			if(attr == null){
@@ -58,47 +75,35 @@ public abstract class Event {
 			
 			JSONObject body = (JSONObject) json.get("body");
 			attr = body.get("building");
-			if(attr == null){
-				System.err.println("Missing required building number.");
-				return false;
+			if(attr != null){
+				building = (String) attr;
 			}
-			building = (int) (long) attr;
 
 			attr = body.get("room");
-			if(attr == null){
-				System.err.println("Missing required room number.");
-				return false;
+			if(attr != null){
+				room = (int) (long) attr;
 			}
-			room = (int) (long) attr;
 			
 			attr = body.get("floor");
-			if(attr == null){
-				System.err.println("Missing required floor number.");
-				return false;
+			if(attr != null){
+				floor = (int) (long) attr;
 			}
-			floor = (int) (long) attr;
 			
 			attr = body.get("xpos");
-			if(attr == null){
-				System.err.println("Missing required xpos number.");
-				return false;
+			if(attr != null){
+				x_pos = (int) (long) attr;
 			}
-			x_pos = (int) (long) attr;
 			
 
 			attr = body.get("ypos");
-			if(attr == null){
-				System.err.println("Missing required ypos number.");
-				return false;
+			if(attr != null){
+				y_pos = (int) (long) attr;
 			}
-			y_pos = (int) (long) attr;
 			
 			attr = body.get("severity");
-			if(attr == null){
-				System.err.println("Missing required severity number.");
-				return false;
+			if(attr != null){
+				severity = (int) (long) attr;
 			}
-			severity = (int) (long) attr;
 			
 			attr = body.get("action");
 			if(attr != null){
@@ -109,18 +114,7 @@ public abstract class Event {
 			if(attr != null){
 				message = (String) attr;
 			}
-
 			
-			JSONArray robotIDs = (JSONArray) body.get("id");
-			if(robotIDs != null){
-				agentsToAccept = new LinkedList<String>();
-				for(int i = 0 ; i < robotIDs.size(); i++){
-					String id = (String) robotIDs.get(i);
-					agentsToAccept.add(id);
-				}
-			}
-
-			//robotIDs.get(0);
 		}catch (ParseException e){
 			System.err.println("position: " + e.getPosition());
 			System.err.println(e);
@@ -189,9 +183,9 @@ public abstract class Event {
 	}
 	
 	/**
-	 * @return the building
+	 * @return the building ID
 	 */
-	public int getBuilding() {
+	public String getBuilding() {
 		return building;
 	}
 	/**
@@ -215,6 +209,7 @@ public abstract class Event {
 
 
 			json = (JSONObject) json.get("body");
+			json = (JSONObject) json.get("message");
 			
 			Object attr = json.get("msg_type");
 			if(attr == null){

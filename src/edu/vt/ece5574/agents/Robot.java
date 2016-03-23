@@ -68,6 +68,18 @@ public class Robot extends Agent {
     //speed = 0.1;
     }
 	
+	/**
+	 * Not sure if this constructor will be used but it can be for testing and sets
+	 * some simple values for what is needed.
+	 * @param rID
+	 * @param bID
+	 */
+	public Robot(String rID, String bID){
+		super(rID, bID);
+		loc = new MutableDouble2D(2,2);
+		radius = 2;
+	}
+	
 
 
 	public void dealWithEvents(SimState state){

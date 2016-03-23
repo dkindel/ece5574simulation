@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.vt.ece5574.agents.Agent;
+import edu.vt.ece5574.agents.Building;
+import edu.vt.ece5574.agents.Robot;
 import edu.vt.ece5574.events.*;
 import edu.vt.ece5574.sim.Simulation;
 
@@ -44,6 +46,11 @@ public class EventTests {
 			e.printStackTrace();
 		}*/
 		sim = new Simulation(1);
+		sim.addAgent(new Building(100, 100, 2, 4, "0"));
+		sim.addAgent(new Robot("1", "0"));
+		sim.addAgent(new Robot("10", "0"));
+		sim.addAgent(new Robot("5", "0"));
+		sim.addAgent(new Robot("2", "0"));
 	}
 	
 	
@@ -54,18 +61,89 @@ public class EventTests {
 				"{"
 				+ "\"messageId\": \"0\","
 				+ "\"body\":{"
-				+ "\"msg_type\": \"fire\","
-				+ "\"body\": {"
-				+ "\"building\": \"0\","
-				+ "\"room\": 1,"
-				+ "\"floor\": 2,"
-				+ "\"xpos\": 3,"
-				+ "\"ypos\": 4,"
-				+ "\"severity\": 5,"
-				+ "\"action\": \"Extinguish\","
-				+ "\"id\": [\"2\",\"1\"]" //id is the id of the agent to handle the event
-				+ "}"
-				+ "}"
+					+ "\"id\": [\"2\", \"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"fire\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"Extinguish\""
+							+ "}"
+						+ "}"
+					+ "}"
+				+ "}";
+		assertEquals("fire", Event.getEventType(details));
+		FireEvent event = new FireEvent();
+		assertTrue(event.init(details));
+		assertEquals("fire", event.getEventType());
+		assertEquals("0", event.getBuilding());
+		assertEquals(1, event.getRoom());
+		assertEquals(2, event.getFloor());
+		assertEquals(3, event.getX_pos());
+		assertEquals(4, event.getY_pos());
+		assertEquals(5, event.getSeverity());
+		assertEquals("extinguish", event.getAction());
+		return event;
+	}
+	
+	private FireEvent createFireBadRobotID(){
+		String details = 
+				"{"
+				+ "\"messageId\": \"0\","
+				+ "\"body\":{"
+					+ "\"id\": [\"3\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"fire\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"Extinguish\""
+							+ "}"
+						+ "}"
+					+ "}"
+				+ "}";
+		assertEquals("fire", Event.getEventType(details));
+		FireEvent event = new FireEvent();
+		assertTrue(event.init(details));
+		assertEquals("fire", event.getEventType());
+		assertEquals("0", event.getBuilding());
+		assertEquals(1, event.getRoom());
+		assertEquals(2, event.getFloor());
+		assertEquals(3, event.getX_pos());
+		assertEquals(4, event.getY_pos());
+		assertEquals(5, event.getSeverity());
+		assertEquals("extinguish", event.getAction());
+		return event;
+	}
+	
+	
+	private FireEvent createFireBadAndGoodRobotID(){
+		String details = 
+				"{"
+				+ "\"messageId\": \"0\","
+				+ "\"body\":{"
+					+ "\"id\": [\"3\", \"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"fire\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"Extinguish\""
+							+ "}"
+						+ "}"
+					+ "}"
 				+ "}";
 		assertEquals("fire", Event.getEventType(details));
 		FireEvent event = new FireEvent();
@@ -87,18 +165,20 @@ public class EventTests {
 				"{"
 				+ "\"messageId\": \"0\","
 				+ "\"body\":{"
-				+ "\"msg_type\": \"water leak\","
-				+ "\"body\": {"
-				+ "\"building\": \"0\","
-				+ "\"room\": 1,"
-				+ "\"floor\": 2,"
-				+ "\"xpos\": 3,"
-				+ "\"ypos\": 4,"
-				+ "\"severity\": 5,"
-				+ "\"action\": \"fix plumbing\","
-				+ "\"id\": [\"1\"]" //id is the id of the agent to handle the event
-				+ "}"
-				+ "}"
+					+ "\"id\": [\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"water leak\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"fix plumbing\""
+							+ "}"
+						+ "}"
+					+ "}"
 				+ "}";
 		assertEquals("water leak", Event.getEventType(details));
 		WaterLeakEvent event = new WaterLeakEvent();
@@ -120,18 +200,20 @@ public class EventTests {
 				"{"
 				+ "\"messageId\": \"0\","
 				+ "\"body\":{"
-				+ "\"msg_type\": \"intruder\","
-				+ "\"body\": {"
-				+ "\"building\": \"0\","
-				+ "\"room\": 1,"
-				+ "\"floor\": 2,"
-				+ "\"xpos\": 3,"
-				+ "\"ypos\": 4,"
-				+ "\"severity\": 5,"
-				+ "\"action\": \"defend\","
-				+ "\"id\": [\"1\"]" //id is the id of the agent to handle the event
-				+ "}"
-				+ "}"
+					+ "\"id\": [\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"intruder\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"defend\""
+							+ "}"
+						+ "}"
+					+ "}"
 				+ "}";
 		assertEquals("intruder", Event.getEventType(details));
 		IntruderEvent event = new IntruderEvent();
@@ -153,17 +235,20 @@ public class EventTests {
 				"{"
 				+ "\"messageId\": \"0\","
 				+ "\"body\":{"
-				+ "\"msg_type\": \"move robot\","
-				+ "\"body\": {"
-				+ "\"building\": \"0\","
-				+ "\"room\": 1,"
-				+ "\"floor\": 2,"
-				+ "\"xpos\": 3,"
-				+ "\"ypos\": 4,"
-				+ "\"severity\": 5,"
-				+ "\"id\": [\"1\"]" //id is the id of the agent to handle the event
-				+ "}"
-				+ "}"
+					+ "\"id\": [\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"move robot\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"move\""
+							+ "}"
+						+ "}"
+					+ "}"
 				+ "}";
 		assertEquals("move robot", Event.getEventType(details));
 		MoveRobotEvent event = new MoveRobotEvent();
@@ -175,6 +260,7 @@ public class EventTests {
 		assertEquals(3, event.getX_pos());
 		assertEquals(4, event.getY_pos());
 		assertEquals(5, event.getSeverity());
+		assertEquals("move", event.getAction());
 		return event;
 	}
 	
@@ -184,18 +270,20 @@ public class EventTests {
 				"{"
 				+ "\"messageId\": \"0\","
 				+ "\"body\":{"
-				+ "\"msg_type\": \"water leak\","
-				+ "\"body\": {"
-				+ "\"building\": \"0\","
-				+ "\"room\": 1,"
-				+ "\"floor\": 2,"
-				+ "\"xpos\": 3,"
-				+ "\"ypos\": 4,"
-				+ "\"severity\": 5,"
-				+ "\"message\": \"There was a water leak in the building\","
-				+ "\"id\": [\"4\",\"10\",\"1\"]" //id is the id of the agent to handle the event
-				+ "}"
-				+ "}"
+					+ "\"id\": [\"5\",\"10\",\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"water leak\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"message\": \"There was a water leak in the building\""
+							+ "}"
+						+ "}"
+					+ "}"
 				+ "}";
 		assertEquals("water leak", Event.getEventType(details));
 		WaterLeakEvent event = new WaterLeakEvent();
@@ -217,29 +305,21 @@ public class EventTests {
 				"{"
 				+ "\"messageId\": \"0\","
 				+ "\"body\":{"
-				+ "\"msg_type\": \"message\","
-				+ "\"body\": {"
-				+ "\"building\": \"0\","
-				+ "\"room\": 1,"
-				+ "\"floor\": 2,"
-				+ "\"xpos\": 3,"
-				+ "\"ypos\": 4,"
-				+ "\"severity\": 5,"
-				+ "\"message\": \"Electricity will be off between 9am-5pm.\","
-				+ "\"id\": [\"4\",\"10\",\"1\"]" //id is the id of the agent to handle the event
-				+ "}"
-				+ "}"
+					+ "\"id\": [\"4\",\"10\",\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"message\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"message\": \"Electricity will be off between 9am-5pm.\""
+							+ "}"
+						+ "}"
+					+ "}"
 				+ "}";
 		assertEquals("message", Event.getEventType(details));
 		UserMessageEvent event = new UserMessageEvent();
 		assertTrue(event.init(details));
 		assertEquals("message", event.getEventType());
 		assertEquals("0", event.getBuilding());
-		assertEquals(1, event.getRoom());
-		assertEquals(2, event.getFloor());
-		assertEquals(3, event.getX_pos());
-		assertEquals(4, event.getY_pos());
-		assertEquals(5, event.getSeverity());
 		assertEquals("Electricity will be off between 9am-5pm.", event.getMessage());
 		return event;
 	}
@@ -259,8 +339,8 @@ public class EventTests {
 		sim.incomingEvent(event);
 		Agent agent = sim.getAgentByID("1");
 		LinkedList<Event> events = agent.getEventList();
-		assertEquals("1", events.get(0).getEventID());
-		events = sim.getEventsForRobotID(0);
+		assertEquals("0", events.get(0).getEventID());
+		agent = sim.getAgentByID("5");
 		assertEquals("0", events.get(0).getEventID());
 		events.get(1);
 	}
@@ -281,7 +361,8 @@ public class EventTests {
 	public void insertWaterLeak(){
 		WaterLeakEvent event = createWaterLeak();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(0);
+		Agent agent = sim.getAgentByID("1");
+		LinkedList<Event> events = agent.getEventList();
 		assertEquals("0", events.get(0).getEventID());
 	}
 	
@@ -289,9 +370,11 @@ public class EventTests {
 	public void checkNoEventsBadRobotID(){
 		WaterLeakEvent event = createWaterLeak();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(0);
+		Agent agent = sim.getAgentByID("1");
+		LinkedList<Event> events = agent.getEventList();
 		assertEquals(1, events.size());
-		events = sim.getEventsForRobotID(1);
+		agent = sim.getAgentByID("10");
+		events = agent.getEventList();
 		assertEquals(0, events.size());
 	}
 	
@@ -304,7 +387,8 @@ public class EventTests {
 	public void insertIntruder(){
 		IntruderEvent event = createIntruder();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(0);
+		Agent agent = sim.getAgentByID("1");
+		LinkedList<Event> events = agent.getEventList();
 		assertEquals("0", events.get(0).getEventID());
 	}
 	
@@ -317,7 +401,8 @@ public class EventTests {
 	public void insertMoveRobot(){
 		MoveRobotEvent event = createMoveRobot();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForRobotID(0);
+		Agent agent = sim.getAgentByID("1");
+		LinkedList<Event> events = agent.getEventList();
 		assertEquals("0", events.get(0).getEventID());
 	}
 	
@@ -330,7 +415,8 @@ public class EventTests {
 	public void insertUserWaterLeakNoRobots(){
 		WaterLeakEvent event = createWaterLeakForUser();
 		sim.incomingEvent(event);
-		LinkedList<Agent> events = sim.getAgentByID("0");
+		Agent agent = sim.getAgentByID("0");
+		LinkedList<Event> events = agent.getEventList();
 		assertEquals(0, events.size());
 	}
 	
@@ -338,13 +424,17 @@ public class EventTests {
 	public void insertUserWaterLeak(){
 		WaterLeakEvent event = createWaterLeakForUser();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForUserID(4);
+		Agent agent = sim.getAgentByID("5");
+		LinkedList<Event> events = agent.getEventList();
 		assertEquals(1, events.size());
-		events = sim.getEventsForUserID(10);
+		agent = sim.getAgentByID("10");
+		events = agent.getEventList();
 		assertEquals(1, events.size());
-		events = sim.getEventsForUserID(1);
+		agent = sim.getAgentByID("1");
+		events = agent.getEventList();
 		assertEquals(1, events.size());
-		events = sim.getEventsForUserID(0);
+		agent = sim.getAgentByID("0");
+		events = agent.getEventList();
 		assertEquals(0, events.size());
 	}
 	
@@ -354,11 +444,23 @@ public class EventTests {
 	}
 	
 	@Test
-	public void insertUserMessage(){
+	public void agentAddedButRequestingByBadID(){
 		UserMessageEvent event = createUserMessage();
 		sim.incomingEvent(event);
-		LinkedList<Event> events = sim.getEventsForUserID(4);
-		assertEquals(1, events.size());
-		assertEquals(event.getMessage(), events.get(0).getMessage());
+		Agent agent = sim.getAgentByID("5");
+		LinkedList<Event> events = agent.getEventList();
+		assertEquals(0, events.size());
+	}
+
+	@Test
+	public void agentNotAddedButRequestedByID(){
+		assertNull(sim.getAgentByID("4"));
+	}
+	
+	@Test
+	public void agentAddingGoodID(){
+		assertTrue(sim.addAgent(new Robot("112", "0")));
+		assertNotNull(sim.getAgentByID("112"));
+		assertEquals("112", sim.getAgentByID("112").getID());
 	}
 }

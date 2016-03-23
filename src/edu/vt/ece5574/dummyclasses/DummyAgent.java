@@ -1,9 +1,6 @@
 package edu.vt.ece5574.dummyclasses;
 
-import java.util.LinkedList;
-
 import edu.vt.ece5574.agents.Agent;
-import edu.vt.ece5574.events.Event;
 import edu.vt.ece5574.events.FireEvent;
 import edu.vt.ece5574.events.WaterLeakEvent;
 import edu.vt.ece5574.sim.Simulation;

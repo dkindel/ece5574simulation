@@ -23,45 +23,45 @@ public abstract class Agent extends OvalPortrayal2D implements Steppable {
 	
 	protected LinkedList<Event> events;
 
-	public Agent(String id_, String buildingID_){
+	private void init(String id_, String buildingID_){
 		id = id_;
 		buildingID = buildingID_;
+		events = new LinkedList<Event>();
+	}
+	
+	public Agent(String id_, String buildingID_){
+		super();
+		init(id_, buildingID_);
 	}
 	
 	public Agent(double scale, String id_, String buildingID_){
 		super(scale);
-		id = id_;
-		buildingID = buildingID_;
+		init(id_, buildingID_);
 	}
 	
 	public Agent(double scale, boolean filled, String id_, String buildingID_){
 		super(scale, filled);
-		id = id_;
-		buildingID = buildingID_;
+		init(id_, buildingID_);
 	}
 	
 	public Agent(Color c, String id_, String buildingID_){
 		super(c);
-		id = id_;
-		buildingID = buildingID_;
+		init(id_, buildingID_);
 	}
 	
 	public Agent(Color c, boolean filled, String id_, String buildingID_){
 		super(c, filled);
-		id = id_;
-		buildingID = buildingID_;
+		init(id_, buildingID_);
 	}
 
 	public Agent(Color c, double scale, String id_, String buildingID_){
 		super(c, scale);
-		id = id_;
-		buildingID = buildingID_;
+		init(id_, buildingID_);
 	}
 	
 	public Agent(Color c, double scale, boolean filled, String id_, String buildingID_){
 		super(c, scale, filled);
-		id = id_;
-		buildingID = buildingID_;
+		init(id_, buildingID_);
 	}
 
 	public void addEvent(Event event) {

@@ -26,7 +26,14 @@ public class Building extends Agent{
 	
     private Matrix matrix;
     
-    
+    /**
+     * Create a new building with provided parameters and the id
+     * @param width
+     * @param height
+     * @param floor
+     * @param room
+     * @param id
+     */
 	public Building(int width, int height, int floor, int room, String id){
 		super(id, id);
 		

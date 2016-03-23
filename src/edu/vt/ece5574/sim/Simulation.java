@@ -78,18 +78,30 @@ public class Simulation extends SimState {
      * For *any* incoming event, there's at least 1 associated ID of a user accepting 
      * that event.  Take that ID and find the agent for it.  Add the event to that agent's 
      * event list. 
+     * 
+     * This only adds the event to agents who have been added to the simulation and does *not*
+     * create new ones if unseen ids are provided.  It will only skip over them
      * @param event The event to add.  
      */
     public void incomingEvent(Event event){
     	LinkedList<String> acceptingAgents = event.getAgentsToAccept();
     	for(int i = 0; i < acceptingAgents.size(); i++){
-    		agents.get(acceptingAgents.get(i)).addEvent(event);
+    		Agent agent = agents.get(acceptingAgents.get(i));
+    		if(agent != null){ //The agent must be in the agent list to be able to act on an event
+    			agent.addEvent(event);
+    		}
     	}
     }
     
     /**
      * Add an agent into the environment. It gets placed into the global agent list if 
      * there wasn't an agent with that ID previously.  If there was, false is returned.
+     * 
+     * This will certainly be called by a building agent but not necessarily by anything else.  
+     * The building will receive an "add robot" event and will then have to call this method.
+     * 
+     * This may also be used in testing
+     * 
      * @param agent The agent to place into the simulation
      * @return True if the agent is placed in with a unique ID.  False if an agent had this ID previously
      */
