@@ -463,4 +463,141 @@ public class EventTests {
 		assertNotNull(sim.getAgentByID("112"));
 		assertEquals("112", sim.getAgentByID("112").getID());
 	}
+	
+	@Test
+	public void malformedJSONObject(){
+		String details =  //missing ending "}"
+				"{"
+				+ "\"messageId\": \"0\","
+				+ "\"body\":{"
+					+ "\"id\": [\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"move robot\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"room\": 1,"
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"move\""
+							+ "}"
+						+ "}"
+					+ "}";
+		MoveRobotEvent event = new MoveRobotEvent();
+		assertFalse(event.init(details));
+	}
+	
+	@Test 
+	public void misspelledField(){
+		String details =  //missing ending "}"
+				"{"
+				+ "\"messageId\": \"0\","
+				+ "\"body\":{"
+					+ "\"id\": [\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"move robot\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\","
+							+ "\"rom\": 1," //misspell room to rom
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"move\""
+							+ "}"
+						+ "}"
+					+ "}"
+				+ "}";
+		MoveRobotEvent event = new MoveRobotEvent();
+		assertFalse(event.init(details));
+	}
+	
+	@Test
+	public void missingRequiredField(){
+		String details =  //missing ending "}"
+				"{"
+				+ "\"messageId\": \"0\","
+				+ "\"body\":{"
+					+ "\"id\": [\"1\"]," //id is the id of the agent to handle the event
+					+ "\"message\": {"
+						+ "\"msg_type\": \"move robot\","
+						+ "\"body\": {"
+							+ "\"building\": \"0\"," //missing room number
+							+ "\"floor\": 2,"
+							+ "\"xpos\": 3,"
+							+ "\"ypos\": 4,"
+							+ "\"severity\": 5,"
+							+ "\"action\": \"move\""
+							+ "}"
+						+ "}"
+					+ "}"
+				+ "}";
+		MoveRobotEvent event = new MoveRobotEvent();
+		assertFalse(event.init(details));
+	}
+	
+	@Test
+	public void badIDRequested(){
+		FireEvent event = createFireBadRobotID();
+		sim.incomingEvent(event);
+		
+		//check it wasn't added to the event list of any of our active agents
+		Agent agent = sim.getAgentByID("1");
+		assertNotNull(agent);
+		LinkedList<Event> events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(0, events.size());
+		agent = sim.getAgentByID("10");
+		assertNotNull(agent);
+		events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(0, events.size());
+		agent = sim.getAgentByID("5");
+		assertNotNull(agent);
+		events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(0, events.size());
+		agent = sim.getAgentByID("2");
+		assertNotNull(agent);
+		events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(0, events.size());
+		
+		//check it didn't create a new agent ID 3
+		assertNull(sim.getAgentByID("3"));
+	}
+	
+	@Test
+	public void badAndGoodIDsRequested(){
+		FireEvent event = createFireBadAndGoodRobotID();
+		
+		sim.incomingEvent(event);
+		//Check that the event was still added to ID 1
+		Agent agent = sim.getAgentByID("1");
+		assertNotNull(agent);
+		LinkedList<Event> events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(1, events.size());
+		
+		//check it wasn't added to the event list of any of our other active agents
+		agent = sim.getAgentByID("10");
+		assertNotNull(agent);
+		events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(0, events.size());
+		agent = sim.getAgentByID("5");
+		assertNotNull(agent);
+		events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(0, events.size());
+		agent = sim.getAgentByID("2");
+		assertNotNull(agent);
+		events = agent.getEventList();
+		assertNotNull(events);
+		assertEquals(0, events.size());
+		
+		//check it didn't create a new agent ID 3
+		assertNull(sim.getAgentByID("3"));
+	}
 }
