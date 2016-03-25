@@ -65,7 +65,9 @@ public abstract class Agent extends OvalPortrayal2D implements Steppable {
 	}
 
 	public void addEvent(Event event) {
-		events.add(event);
+		if(event != null){
+			events.add(event);
+		}
 	}
 	
 	public LinkedList<Event> getEventList(){

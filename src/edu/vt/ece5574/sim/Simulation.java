@@ -149,4 +149,9 @@ public class Simulation extends SimState {
 	public Agent getAgentByID(String id) {
 		return agents.get(id);
 	}
+	
+	
+	public boolean agentPushReceived(String id){
+		return false;
+	}
 }

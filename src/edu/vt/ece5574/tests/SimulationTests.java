@@ -10,7 +10,7 @@ import edu.vt.ece5574.agents.Robot;
 import edu.vt.ece5574.sim.Simulation;
 
 public class SimulationTests {
-Simulation sim;
+	Simulation sim;
 	
 	@Before
 	public void init(){
