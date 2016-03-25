@@ -1,4 +1,9 @@
 package edu.vt.ece5574.sim;
+import java.util.Properties;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.FileNotFoundException;
+import java.util.Date;
 
 //Maybe we shouldn't do json or XML?  There's a java properties file format
 //that might be of interest: 
@@ -14,7 +19,7 @@ package edu.vt.ece5574.sim;
 
 /**
  * Basic class for configurations
- * @author David Kindel
+ * @author Siddharth Bhal
  *
  */
 public class Configuration {
@@ -22,22 +27,59 @@ public class Configuration {
 	/**
 	 * 
 	 */
+	InputStream inputStream;
+	Properties allProp;
+
 	public Configuration(){
-		
-	}
-	
-	public Configuration(String filename){
-		if(!load(filename)){
+		String filename = "config.properties";
+		if(!load(filename)) {
 			System.err.println("Failed to load configuration file named " + filename);
 			System.exit(-1);
 		}
 	}
 	
-	public boolean load(String filename){
-		return false;
+	public Configuration(String filename){
+
+		if(!load(filename)) {
+			System.err.println("Failed to load configuration file named " + filename);
+			System.exit(-1);
+		}
 	}
 	
-	public int getNumBuildings(){
-		return 1;
+	public boolean load(String filename) {
+
+		try {
+			allProp = new Properties();
+			String propFileName = "config.properties";
+ 
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+ 
+			if (inputStream != null) {
+				allProp.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+ 
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+			return false;
+		} finally {
+			try {
+			    if (inputStream != null) {
+			    	inputStream.close();
+			    }
+			  } catch( Exception ex ) {
+				  System.out.println( "Exception during Resource.close()"+ ex);
+			  }
+		}
+		return true;
+	}
+	
+	public String getProp(String propName){
+		String property =  allProp.getProperty(propName);
+		if(property == null) {
+			System.err.println("Failed to load property named " + propName);
+        }
+		return property;
 	}
 }

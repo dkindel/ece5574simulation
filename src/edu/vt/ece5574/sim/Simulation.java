@@ -11,6 +11,7 @@ import sim.engine.*;
 import sim.field.continuous.Continuous2D;
 import sim.util.Double2D;
 import java.awt.*;
+import java.io.IOException;
 
 /**
  * The root of the simulation.  This is where things get started and the magic happens.
@@ -19,20 +20,26 @@ import java.awt.*;
  */
 public class Simulation extends SimState {
 
-    private static final long serialVersionUID = 1;
+	public Configuration config;
+	
+	private static final long serialVersionUID = 1;
     public Continuous2D room = new Continuous2D(1.0,100,100);
-    public int numRobots = 5;
+    public int numRobots;
     
-    public Configuration config;
+    
+ 
     public HashMap<String, Agent> agents; //map the agent id to the agent itself
     
     public Simulation(long seed){
     	super(seed); //needs to be first line, can't just set seed here
     	
-        config = new Configuration();
-        config.load("config.json");
-        boolean debug = false; //will be read in from config.  If it's a debug, we'll set seed manually
-        seed = 5;
+    	config = new Configuration("config.properties");
+    	
+    	numRobots = Integer.parseInt(config.getProp("numRobots"));
+        boolean debug = Boolean.parseBoolean(config.getProp("debug")); //will be read in from config.  If it's a debug, we'll set seed manually
+        //seed = 5;
+        seed = Long.parseLong(config.getProp("seedValue"));
+        
         if(debug){
         	if(seed == 0){
         		System.err.println("Seed cannot be set to 0. Running sim with default seed.");
@@ -47,6 +54,7 @@ public class Simulation extends SimState {
     }
     
 	public static void main(String[] args) {
+		
 		doLoop(Simulation.class, args);
 		System.exit(0);
 	}
@@ -58,7 +66,8 @@ public class Simulation extends SimState {
         //clear the room of previous actors
         room.clear();
 
-        int numBuildings = config.getNumBuildings();
+        int numBuildings = Integer.parseInt(config.getProp("numBuildings"));
+
         for(int i = 0; i < numRobots; i++){
         	Robot agent = new Robot(room.getWidth() * 0.5 + random.nextDouble() - 0.5,
 					room.getHeight() * 0.5 + random.nextDouble() - 0.5,Color.WHITE, new Integer(i+numBuildings).toString(), "0");
