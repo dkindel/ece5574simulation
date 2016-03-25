@@ -12,7 +12,7 @@ import edu.vt.ece5574.sim.StorageAPI;
  * @author Vinit Gala 
  * */
 
-public class StorageAPITest {
+public class StorageAPITests{
 
 	@Test
 	public void checkGetRequest() {
