@@ -26,13 +26,18 @@ import javax.mail.Multipart;
 import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
+
+import sim.engine.SimState;
+import sim.engine.Steppable;
+
 import javax.mail.Flags;
 
 
 
 
-public class ReadNotifications {
+public class ReadNotifications implements Steppable{
 
+	private static final long serialVersionUID = 1;
 	private String userName;
     private String password;
     private String receivingHost;
@@ -149,5 +154,14 @@ public class ReadNotifications {
 			return null;
  
     }
+
+
+
+
+
+	@Override
+	public void step(SimState state) {
+		readGmail((Simulation)state);
+	}
       
 }

@@ -91,4 +91,19 @@ public class SimulationTests {
 	public void agentRemoveNullID(){
 		assertNull(sim.removeAgent(new Robot(null, "0")));
 	}
+	
+	@Test
+	public void agentMessageWaitingNull(){
+		assertFalse(sim.agentPushReceived(null));
+	}
+	
+	@Test
+	public void agentMessageWaitingBad(){
+		assertFalse(sim.agentPushReceived("100"));
+	}
+	
+	@Test
+	public void agentMessageWaitingGood(){
+		assertTrue(sim.agentPushReceived("0"));
+	}
 }

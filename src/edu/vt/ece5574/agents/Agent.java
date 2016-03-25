@@ -22,6 +22,8 @@ public abstract class Agent extends OvalPortrayal2D implements Steppable {
 	protected String buildingID = "0"; //a building will have the same ID as building ID
 	
 	protected LinkedList<Event> events;
+	
+	protected boolean messageWaiting = false;
 
 	private void init(String id_, String buildingID_){
 		id = id_;
@@ -80,6 +82,14 @@ public abstract class Agent extends OvalPortrayal2D implements Steppable {
 	
 	public String getBuildingID(){
 		return buildingID;
+	}
+	
+	/**
+	 * Sets the message waiting flag.  No one else may unset this flag other than the
+	 * agent itself so there is no method to unset it.
+	 */
+	public void setMessageWaiting(){
+		messageWaiting = true;
 	}
 	
 }
