@@ -10,7 +10,7 @@ import edu.vt.ece5574.agents.Robot;
 import edu.vt.ece5574.sim.Simulation;
 
 public class SimulationTests {
-Simulation sim;
+	Simulation sim;
 	
 	@Before
 	public void init(){
@@ -90,5 +90,20 @@ Simulation sim;
 	@Test
 	public void agentRemoveNullID(){
 		assertNull(sim.removeAgent(new Robot(null, "0")));
+	}
+	
+	@Test
+	public void agentMessageWaitingNull(){
+		assertFalse(sim.agentPushReceived(null));
+	}
+	
+	@Test
+	public void agentMessageWaitingBad(){
+		assertFalse(sim.agentPushReceived("100"));
+	}
+	
+	@Test
+	public void agentMessageWaitingGood(){
+		assertTrue(sim.agentPushReceived("0"));
 	}
 }

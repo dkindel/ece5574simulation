@@ -149,4 +149,18 @@ public class Simulation extends SimState {
 	public Agent getAgentByID(String id) {
 		return agents.get(id);
 	}
+	
+	/**
+	 * Notifies the agent that a message is waiting on the server side.
+	 * @param id The ID of the agent for a waiting message
+	 * @return True if the agent is found and its message waiting flag set
+	 */
+	public boolean agentPushReceived(String id){
+		Agent agent = agents.get(id);
+		if(agent == null){
+			return false;
+		}
+		agent.setMessageWaiting();
+		return true;
+	}
 }
